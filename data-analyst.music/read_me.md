@@ -427,3 +427,109 @@ In[] number_tracks('Friday', 'Saint-Petersburg') # количество прос
 ```
 Out[] 6259
 ```
+**Задание 22**
+
+Создайте c помощью конструктора `pd.DataFrame` таблицу, где
+* названия колонок — `['city', 'monday', 'wednesday', 'friday']`;
+* данные — результаты, которые вы получили с помощью `number_tracks`.
+```
+# Таблица с результатами
+def_data = [
+    ['Moscow', 16715, 11755, 16890],
+    ['Saint-Petersburg', 5982, 7478, 6259],
+]
+
+def_column = ['city', 'monday', 'wednesday', 'friday']
+
+def_city = pd.DataFrame(data=def_data, columns=def_column) # датафрейм по двум городам
+display(def_city)
+```
+| city |           monday | wednesday | friday |       |
+|-----:|-----------------:|----------:|-------:|------:|
+|   0  | Moscow           | 16715     | 11755  | 16890 |
+|   1  | Saint-Petersburg | 5982      | 7478   | 6259  |
+**Выводы**
+
+Данные показывают разницу поведения пользователей:
+
+- В Москве пик прослушиваний приходится на понедельник и пятницу, а в среду заметен спад.
+- В Петербурге, наоборот, больше слушают музыку по средам. Активность в понедельник и пятницу здесь почти в равной мере уступает среде.
+
+Значит, данные говорят в пользу первой гипотезы.
+### Музыка в начале и в конце недели
+Согласно второй гипотезе, утром в понедельник в Москве преобладают одни жанры, а в Петербурге — другие. Так же и вечером пятницы преобладают разные жанры — в зависимости от города.
+**Задание 23**
+
+Сохраните таблицы с данными в две переменные:
+* по Москве — в `moscow_general`;
+* по Санкт-Петербургу — в `spb_general`.
+```
+# получение таблицы moscow_general из тех строк таблицы df, 
+# для которых значение в столбце 'city' равно 'Moscow'
+moscow_general = df[df['city'] == 'Moscow']
+```
+```
+# получение таблицы spb_general из тех строк таблицы df,
+# для которых значение в столбце 'city' равно 'Saint-Petersburg'
+spb_general = df[df['city'] == 'Saint-Petersburg']
+df.head(10)
+```
+| user_id |    track |                      artist |            genre |   city |             time |      day |           |
+|--------:|---------:|----------------------------:|-----------------:|-------:|-----------------:|---------:|-----------|
+|    0    | FFB692EC | Kamigata To Boots           | The Mass Missile | rock   | Saint-Petersburg | 20:28:33 | Wednesday |
+|    1    | 55204538 | Delayed Because of Accident | Andreas Rönnberg | rock   | Moscow           | 14:07:09 | Friday    |
+|    2    | 20EC38   | Funiculì funiculà           | Mario Lanza      | pop    | Saint-Petersburg | 20:58:07 | Wednesday |
+|    3    | A3DD03C9 | Dragons in the Sunset       | Fire + Ice       | folk   | Saint-Petersburg | 08:37:09 | Monday    |
+|    4    | E2DC1FAE | Soul People                 | Space Echo       | dance  | Moscow           | 08:34:34 | Monday    |
+|    5    | 842029A1 | Преданная                   | IMPERVTOR        | rusrap | Saint-Petersburg | 13:09:41 | Friday    |
+|    6    | 4CB90AA5 | True                        | Roman Messer     | dance  | Moscow           | 13:00:07 | Wednesday |
+|    7    | F03E1C1F | Feeling This Way            | Polina Griffith  | dance  | Moscow           | 20:47:49 | Wednesday |
+|    8    | 8FA1D3BE | И вновь продолжается бой    | NaN              | ruspop | Moscow           | 09:17:40 | Friday    |
+|    9    | E772D5C0 | Pessimist                   | NaN              | dance  | Saint-Petersburg | 21:20:49 | Wednesday |
+**Задание 24**
+
+Создайте функцию `genre_weekday()` с четырьмя параметрами:
+* таблица (датафрейм) с данными,
+* день недели,
+* начальная временная метка в формате 'hh:mm', 
+* последняя временная метка в формате 'hh:mm'.
+
+Функция должна вернуть информацию о топ-10 жанров тех треков, которые прослушивали в указанный день, в промежутке между двумя отметками времени.
+```
+def genre_weekday(table, day, time1, time2): # Объявление функции genre_weekday() с параметрами table, day, time1, time2,
+# которая возвращает информацию о самых популярных жанрах в указанный день в
+# заданное время:
+# 1) в переменную genre_df сохраняются те строки переданного датафрейма table, для
+#    которых одновременно:
+#    - значение в столбце day равно значению аргумента day
+#    - значение в столбце time больше значения аргумента time1
+#    - значение в столбце time меньше значения аргумента time2
+#    Используйте последовательную фильтрацию с помощью логической индексации.
+    genre_df = df[(df['day'] == day) & (time1 < df['time'] < time2)]
+# 2) сгруппировать датафрейм genre_df по столбцу genre, взять один из его
+#    столбцов и посчитать методом count() количество записей для каждого из
+#    присутствующих жанров, получившийся Series записать в переменную
+#    genre_df_count
+    genre_df_count = genre_df.groupby('genre')['user_id'].count()
+# 3) отсортировать genre_df_count по убыванию встречаемости и сохранить
+#    в переменную genre_df_sorted
+    genre_df_sorted = genre_count.sort_values(by='genre', ascending=False)
+# 4) вернуть Series из 10 первых значений genre_df_sorted, это будут топ-10
+#    популярных жанров (в указанный день, в заданное время)
+    genre_df_sorted = genre_df_sorted.head(10)
+    return genre_list_sorted
+
+    # последовательная фильтрация
+    # оставляем в genre_df только те строки df, у которых день равен day
+#    genre_df = # ваш код здесь
+    # оставляем в genre_df только те строки genre_df, у которых время меньше time2
+#    genre_df = # ваш код здесь
+    # оставляем в genre_df только те строки genre_df, у которых время больше time1
+#    genre_df = # ваш код здесь
+    # сгруппируем отфильтрованный датафрейм по столбцу с названиями жанров, возьмём столбец genre и посчитаем кол-во строк для каждого жанра методом count()
+#    genre_df_grouped = # ваш код здесь
+    # отсортируем результат по убыванию (чтобы в начале Series оказались самые популярные жанры)
+#    genre_df_sorted = # ваш код здесь
+    # вернём Series с 10 самыми популярными жанрами в указанный отрезок времени заданного дня
+#    return genre_df_sorted[:10]
+```
