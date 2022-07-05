@@ -45,3 +45,15 @@ df = pd.read_csv('/datasets/yandex_music_project.csv') # чтение файла
 ```
 df.head(10) # получение первых 10 строк таблицы df
 ```
+| userID |    Track |                      artist |            genre |   City |             time |      Day |           |
+|-------:|---------:|----------------------------:|-----------------:|-------:|-----------------:|---------:|-----------|
+|    0   | FFB692EC | Kamigata To Boots           | The Mass Missile | rock   | Saint-Petersburg | 20:28:33 | Wednesday |
+|    1   | 55204538 | Delayed Because of Accident | Andreas Rönnberg | rock   | Moscow           | 14:07:09 | Friday    |
+|    2   | 20EC38   | Funiculì funiculà           | Mario Lanza      | pop    | Saint-Petersburg | 20:58:07 | Wednesday |
+|    3   | A3DD03C9 | Dragons in the Sunset       | Fire + Ice       | folk   | Saint-Petersburg | 08:37:09 | Monday    |
+|    4   | E2DC1FAE | Soul People                 | Space Echo       | dance  | Moscow           | 08:34:34 | Monday    |
+|    5   | 842029A1 | Преданная                   | IMPERVTOR        | rusrap | Saint-Petersburg | 13:09:41 | Friday    |
+|    6   | 4CB90AA5 | True                        | Roman Messer     | dance  | Moscow           | 13:00:07 | Wednesday |
+|    7   | F03E1C1F | Feeling This Way            | Polina Griffith  | dance  | Moscow           | 20:47:49 | Wednesday |
+|    8   | 8FA1D3BE | И вновь продолжается бой    | NaN              | ruspop | Moscow           | 09:17:40 | Friday    |
+|    9   | E772D5C0 | Pessimist                   | NaN              | dance  | Saint-Petersburg | 21:20:49 | Wednesday |
