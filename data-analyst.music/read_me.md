@@ -124,5 +124,6 @@ memory usage: 3.5+ MB
 Выведите на экран названия столбцов:
 ```
 df.columns # перечень названий столбцов таблицы df
+```
 Index(['  userID', 'Track', 'artist', 'genre', '  City  ', 'time', 'Day'], dtype='object')
 ```
