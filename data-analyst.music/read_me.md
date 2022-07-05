@@ -259,6 +259,85 @@ print(df_genre)
  'folkrock' 'folktronica' 'forró' 'frankreich' 'französisch' 'french'
  'funk' 'future' 'gangsta' 'garage' 'german' 'ghazal' 'gitarre' 'glitch'
  'gospel' 'gothic' 'grime' 'grunge' 'gypsy' 'handsup' "hard'n'heavy"
+ 'hardcore' 'hardstyle' 'hardtechno' 'hip' 'hip-hop' 'hiphop' 'historisch'
+ 'holiday' 'hop' 'horror' 'house' 'hymn' 'idm' 'independent' 'indian'
+ 'indie' 'indipop' 'industrial' 'inspirational' 'instrumental'
+ 'international' 'irish' 'jam' 'japanese' 'jazz' 'jewish' 'jpop' 'jungle'
+ 'k-pop' 'karadeniz' 'karaoke' 'kayokyoku' 'korean' 'laiko' 'latin'
+ 'latino' 'leftfield' 'local' 'lounge' 'loungeelectronic' 'lovers'
+ 'malaysian' 'mandopop' 'marschmusik' 'meditative' 'mediterranean'
+ 'melodic' 'metal' 'metalcore' 'mexican' 'middle' 'minimal'
+ 'miscellaneous' 'modern' 'mood' 'mpb' 'muslim' 'native' 'neoklassik'
+ 'neue' 'new' 'newage' 'newwave' 'nu' 'nujazz' 'numetal' 'oceania' 'old'
+ 'opera' 'orchestral' 'other' 'piano' 'podcasts' 'pop' 'popdance'
+ 'popelectronic' 'popeurodance' 'poprussian' 'post' 'posthardcore'
+ 'postrock' 'power' 'progmetal' 'progressive' 'psychedelic' 'punjabi'
+ 'punk' 'quebecois' 'ragga' 'ram' 'rancheras' 'rap' 'rave' 'reggae'
+ 'reggaeton' 'regional' 'relax' 'religious' 'retro' 'rhythm' 'rnb' 'rnr'
+ 'rock' 'rockabilly' 'rockalternative' 'rockindie' 'rockother' 'romance'
+ 'roots' 'ruspop' 'rusrap' 'rusrock' 'russian' 'salsa' 'samba' 'scenic'
+ 'schlager' 'self' 'sertanejo' 'shanson' 'shoegazing' 'showtunes' 'singer'
+ 'ska' 'skarock' 'slow' 'smooth' 'soft' 'soul' 'soulful' 'sound'
+ 'soundtrack' 'southern' 'specialty' 'speech' 'spiritual' 'sport'
+ 'stonerrock' 'surf' 'swing' 'synthpop' 'synthrock' 'sängerportrait'
+ 'tango' 'tanzorchester' 'taraftar' 'tatar' 'tech' 'techno' 'teen'
+ 'thrash' 'top' 'traditional' 'tradjazz' 'trance' 'tribal' 'trip'
+ 'triphop' 'tropical' 'türk' 'türkçe' 'ukrrock' 'unknown' 'urban' 'uzbek'
+ 'variété' 'vi' 'videogame' 'vocal' 'western' 'world' 'worldbeat' 'ïîï'
+ 'электроника']
+```
+
+**Задание 16**
+
+Просмотрите список и найдите неявные дубликаты названия `hiphop`. Это могут быть названия с ошибками или альтернативные названия того же жанра.
+
+Вы увидите следующие неявные дубликаты:
+* *hip*,
+* *hop*,
+* *hip-hop*.
+
+Чтобы очистить от них таблицу используйте метод `replace()` с двумя аргументами: списком строк-дубликатов (включащий *hip*, *hop* и *hip-hop*) и строкой с правильным значением. Вам нужно исправить колонку `genre` в таблице `df`: заменить каждое значение из списка дубликатов на верное. Вместо `hip`, `hop` и `hip-hop` в таблице должно быть значение `hiphop`:
+```
+# Устранение неявных дубликатов
+duplicates = ['hip', 'hop', 'hip-hop'] # список неправильных имён
+name = 'hiphop' # правильное имя
+df['genre'] = df['genre'].replace(duplicates, name)
+```
+**Задание 17**
+
+Проверьте, что заменили неправильные названия:
+
+*   hip,
+*   hop,
+*   hip-hop.
+
+Выведите отсортированный список уникальных значений столбца `genre`:
+```
+# Проверка на неявные дубликаты
+
+df_genre = df['genre'] # извлеките нужный столбец датафрейма
+df_genre = df_genre.sort_values() # примените к нему метод сортировки
+df_genre = df_genre.unique() # для отсортированного столбца вызовите метод, который вернёт уникальные значения из столбца
+print(df_genre)
+```
+```
+['acid' 'acoustic' 'action' 'adult' 'africa' 'afrikaans' 'alternative'
+ 'alternativepunk' 'ambient' 'americana' 'animated' 'anime' 'arabesk'
+ 'arabic' 'arena' 'argentinetango' 'art' 'audiobook' 'author' 'avantgarde'
+ 'axé' 'baile' 'balkan' 'beats' 'bigroom' 'black' 'bluegrass' 'blues'
+ 'bollywood' 'bossa' 'brazilian' 'breakbeat' 'breaks' 'broadway'
+ 'cantautori' 'cantopop' 'canzone' 'caribbean' 'caucasian' 'celtic'
+ 'chamber' 'chanson' 'children' 'chill' 'chinese' 'choral' 'christian'
+ 'christmas' 'classical' 'classicmetal' 'club' 'colombian' 'comedy'
+ 'conjazz' 'contemporary' 'country' 'cuban' 'dance' 'dancehall' 'dancepop'
+ 'dark' 'death' 'deep' 'deutschrock' 'deutschspr' 'dirty' 'disco' 'dnb'
+ 'documentary' 'downbeat' 'downtempo' 'drum' 'dub' 'dubstep' 'eastern'
+ 'easy' 'electronic' 'electropop' 'emo' 'entehno' 'epicmetal' 'estrada'
+ 'ethnic' 'eurofolk' 'european' 'experimental' 'extrememetal' 'fado'
+ 'fairytail' 'film' 'fitness' 'flamenco' 'folk' 'folklore' 'folkmetal'
+ 'folkrock' 'folktronica' 'forró' 'frankreich' 'französisch' 'french'
+ 'funk' 'future' 'gangsta' 'garage' 'german' 'ghazal' 'gitarre' 'glitch'
+ 'gospel' 'gothic' 'grime' 'grunge' 'gypsy' 'handsup' "hard'n'heavy"
  'hardcore' 'hardstyle' 'hardtechno' 'hiphop' 'historisch' 'holiday'
  'horror' 'house' 'hymn' 'idm' 'independent' 'indian' 'indie' 'indipop'
  'industrial' 'inspirational' 'instrumental' 'international' 'irish' 'jam'
@@ -285,6 +364,7 @@ print(df_genre)
  'vi' 'videogame' 'vocal' 'western' 'world' 'worldbeat' 'ïîï'
  'электроника' nan]
 ```
+
 **Выводы**
 
 Предобработка обнаружила три проблемы в данных:
