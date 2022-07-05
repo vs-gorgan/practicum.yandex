@@ -205,3 +205,84 @@ dtype: int64
 **Задание 12**
 
 Посчитайте явные дубликаты в таблице одной командой:
+```
+columns_to_replace.duplicated().sum() # подсчёт явных дубликатов
+```
+```
+3826
+```
+**Задание 13**
+
+Вызовите специальный метод `pandas`, чтобы удалить явные дубликаты:
+```
+columns_to_replace = columns_to_replace.drop_duplicates() # удаление явных дубликатов
+```
+**Задание 14**
+
+Ещё раз посчитайте явные дубликаты в таблице — убедитесь, что полностью от них избавились:
+```
+columns_to_replace.duplicated().sum() # проверка на отсутствие дубликатов
+```
+```
+0
+```
+Теперь избавьтесь от неявных дубликатов в колонке `genre`. Например, название одного и того же жанра может быть записано немного по-разному. Такие ошибки тоже повлияют на результат исследования.
+
+**Задание 15**
+
+Выведите на экран список уникальных названий жанров, отсортированный в алфавитном порядке. Для этого:
+1. извлеките нужный столбец датафрейма; 
+2. примените к нему метод сортировки;
+3. для отсортированного столбца вызовите метод, который вернёт уникальные значения из столбца.
+```
+# Просмотр уникальных названий жанров
+df_genre = columns_to_replace['genre'] # извлеките нужный столбец датафрейма
+df_genre = df_genre.sort_values() # примените к нему метод сортировки
+df_genre = df_genre.unique() # для отсортированного столбца вызовите метод, который вернёт уникальные значения из столбца
+print(df_genre)
+```
+```
+['acid' 'acoustic' 'action' 'adult' 'africa' 'afrikaans' 'alternative'
+ 'alternativepunk' 'ambient' 'americana' 'animated' 'anime' 'arabesk'
+ 'arabic' 'arena' 'argentinetango' 'art' 'audiobook' 'author' 'avantgarde'
+ 'axé' 'baile' 'balkan' 'beats' 'bigroom' 'black' 'bluegrass' 'blues'
+ 'bollywood' 'bossa' 'brazilian' 'breakbeat' 'breaks' 'broadway'
+ 'cantautori' 'cantopop' 'canzone' 'caribbean' 'caucasian' 'celtic'
+ 'chamber' 'chanson' 'children' 'chill' 'chinese' 'choral' 'christian'
+ 'christmas' 'classical' 'classicmetal' 'club' 'colombian' 'comedy'
+ 'conjazz' 'contemporary' 'country' 'cuban' 'dance' 'dancehall' 'dancepop'
+ 'dark' 'death' 'deep' 'deutschrock' 'deutschspr' 'dirty' 'disco' 'dnb'
+ 'documentary' 'downbeat' 'downtempo' 'drum' 'dub' 'dubstep' 'eastern'
+ 'easy' 'electronic' 'electropop' 'emo' 'entehno' 'epicmetal' 'estrada'
+ 'ethnic' 'eurofolk' 'european' 'experimental' 'extrememetal' 'fado'
+ 'fairytail' 'film' 'fitness' 'flamenco' 'folk' 'folklore' 'folkmetal'
+ 'folkrock' 'folktronica' 'forró' 'frankreich' 'französisch' 'french'
+ 'funk' 'future' 'gangsta' 'garage' 'german' 'ghazal' 'gitarre' 'glitch'
+ 'gospel' 'gothic' 'grime' 'grunge' 'gypsy' 'handsup' "hard'n'heavy"
+ 'hardcore' 'hardstyle' 'hardtechno' 'hiphop' 'historisch' 'holiday'
+ 'horror' 'house' 'hymn' 'idm' 'independent' 'indian' 'indie' 'indipop'
+ 'industrial' 'inspirational' 'instrumental' 'international' 'irish' 'jam'
+ 'japanese' 'jazz' 'jewish' 'jpop' 'jungle' 'k-pop' 'karadeniz' 'karaoke'
+ 'kayokyoku' 'korean' 'laiko' 'latin' 'latino' 'leftfield' 'local'
+ 'lounge' 'loungeelectronic' 'lovers' 'malaysian' 'mandopop' 'marschmusik'
+ 'meditative' 'mediterranean' 'melodic' 'metal' 'metalcore' 'mexican'
+ 'middle' 'minimal' 'miscellaneous' 'modern' 'mood' 'mpb' 'muslim'
+ 'native' 'neoklassik' 'neue' 'new' 'newage' 'newwave' 'nu' 'nujazz'
+ 'numetal' 'oceania' 'old' 'opera' 'orchestral' 'other' 'piano' 'podcasts'
+ 'pop' 'popdance' 'popelectronic' 'popeurodance' 'poprussian' 'post'
+ 'posthardcore' 'postrock' 'power' 'progmetal' 'progressive' 'psychedelic'
+ 'punjabi' 'punk' 'quebecois' 'ragga' 'ram' 'rancheras' 'rap' 'rave'
+ 'reggae' 'reggaeton' 'regional' 'relax' 'religious' 'retro' 'rhythm'
+ 'rnb' 'rnr' 'rock' 'rockabilly' 'rockalternative' 'rockindie' 'rockother'
+ 'romance' 'roots' 'ruspop' 'rusrap' 'rusrock' 'russian' 'salsa' 'samba'
+ 'scenic' 'schlager' 'self' 'sertanejo' 'shanson' 'shoegazing' 'showtunes'
+ 'singer' 'ska' 'skarock' 'slow' 'smooth' 'soft' 'soul' 'soulful' 'sound'
+ 'soundtrack' 'southern' 'specialty' 'speech' 'spiritual' 'sport'
+ 'stonerrock' 'surf' 'swing' 'synthpop' 'synthrock' 'sängerportrait'
+ 'tango' 'tanzorchester' 'taraftar' 'tatar' 'tech' 'techno' 'teen'
+ 'thrash' 'top' 'traditional' 'tradjazz' 'trance' 'tribal' 'trip'
+ 'triphop' 'tropical' 'türk' 'türkçe' 'ukrrock' 'urban' 'uzbek' 'variété'
+ 'vi' 'videogame' 'vocal' 'western' 'world' 'worldbeat' 'ïîï'
+ 'электроника' nan]
+```
+
