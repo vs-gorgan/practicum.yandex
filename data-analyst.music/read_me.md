@@ -65,6 +65,7 @@ df.head(10) # получение первых 10 строк таблицы df
 ```
 df.info() # получение общей информации о данных в таблице df
 ```
+```
 <class 'pandas.core.frame.DataFrame'>
 RangeIndex: 65079 entries, 0 to 65078
 Data columns (total 7 columns):
@@ -79,3 +80,4 @@ Data columns (total 7 columns):
  6   Day       65079 non-null  object
 dtypes: object(7)
 memory usage: 3.5+ MB
+```
