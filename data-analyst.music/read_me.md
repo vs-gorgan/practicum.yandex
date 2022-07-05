@@ -125,5 +125,6 @@ memory usage: 3.5+ MB
 ```
 df.columns # перечень названий столбцов таблицы df
 ```
+```
 Index(['  userID', 'Track', 'artist', 'genre', '  City  ', 'time', 'Day'], dtype='object')
 ```
