@@ -57,3 +57,25 @@ df.head(10) # получение первых 10 строк таблицы df
 |    7   | F03E1C1F | Feeling This Way            | Polina Griffith  | dance  | Moscow           | 20:47:49 | Wednesday |
 |    8   | 8FA1D3BE | И вновь продолжается бой    | NaN              | ruspop | Moscow           | 09:17:40 | Friday    |
 |    9   | E772D5C0 | Pessimist                   | NaN              | dance  | Saint-Petersburg | 21:20:49 | Wednesday |
+
+**Задание 4**
+
+
+Одной командой получить общую информацию о таблице c помощью метода `info()`:
+```
+df.info() # получение общей информации о данных в таблице df
+```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 65079 entries, 0 to 65078
+Data columns (total 7 columns):
+ #   Column    Non-Null Count  Dtype 
+---  ------    --------------  ----- 
+ 0     userID  65079 non-null  object
+ 1   Track     63848 non-null  object
+ 2   artist    57876 non-null  object
+ 3   genre     63881 non-null  object
+ 4     City    65079 non-null  object
+ 5   time      65079 non-null  object
+ 6   Day       65079 non-null  object
+dtypes: object(7)
+memory usage: 3.5+ MB
