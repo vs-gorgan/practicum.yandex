@@ -606,15 +606,15 @@ def genre_weekday(table, day, time1, time2): # Объявление функци
 
     # последовательная фильтрация
     # оставляем в genre_df только те строки df, у которых день равен day
-#    genre_df = # ваш код здесь
+    genre_df = df[df['day'] == day] # ваш код здесь
     # оставляем в genre_df только те строки genre_df, у которых время меньше time2
-#    genre_df = # ваш код здесь
+    genre_df = df[df['time'] < time2] # ваш код здесь
     # оставляем в genre_df только те строки genre_df, у которых время больше time1
-#    genre_df = # ваш код здесь
+    genre_df = df[df['time'] > time1] # ваш код здесь
     # сгруппируем отфильтрованный датафрейм по столбцу с названиями жанров, возьмём столбец genre и посчитаем кол-во строк для каждого жанра методом count()
-#    genre_df_grouped = # ваш код здесь
+    genre_df_grouped = genre_df.groupby('genre')['genre'].count() # ваш код здесь
     # отсортируем результат по убыванию (чтобы в начале Series оказались самые популярные жанры)
-#    genre_df_sorted = # ваш код здесь
+    genre_df_grouped = genre_df_grouped.sort_values(ascending=False) # ваш код здесь
     # вернём Series с 10 самыми популярными жанрами в указанный отрезок времени заданного дня
-#    return genre_df_sorted[:10]
+    return genre_df_sorted[:10]
 ```
