@@ -2,4 +2,4 @@
 
 ## Содержание
 
-- [Проект: музыка больших городов](https://github.com/vs-gorgan/practicum.yandex/blob/main/data-analyst.music/read_me.md)
+- [Проект: музыка больших городов](https://github.com/vs-gorgan/practicum.yandex/blob/main/01-data-analyst.music/music.md)
