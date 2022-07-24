@@ -9,7 +9,7 @@
 import pandas as pd # импортируйте библиотеку pandas
 ```
 ```
-data = pd.read_csv('/datasets/data.csv') # прочитайте csv-файл
+data = pd.read_csv('/datasets/data.csv') # прочитаем csv-файл
 ```
 **Задание 2. Выведите первые 20 строчек датафрейма `data` на экран.**
 ```
@@ -262,4 +262,56 @@ def categorize_purpose(purpose): # создайте функцию categorize_pu
         return 'проведение свадьбы'
     if purpose == 'дополнительное образование' or purpose == 'заняться образованием' or purpose == 'получение образования' or purpose == 'получение дополнительного образования' or purpose == 'профильное образование' or purpose == 'заняться высшим образованием' or purpose == 'образование' or purpose == 'получение высшего образования' or purpose == 'высшее образование':
         return 'получение образования'
-        
+```
+```
+data['purpose_category'] = data['purpose'].apply(categorize_purpose) # применим функцию методом apply()
+```
+```
+data.info()
+```
+```
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 21348 entries, 0 to 21524
+Data columns (total 14 columns):
+ #   Column                 Non-Null Count  Dtype  
+---  ------                 --------------  -----  
+ 0   children               21348 non-null  int64  
+ 1   days_employed          21348 non-null  float64
+ 2   dob_years              21348 non-null  int64  
+ 3   education              21348 non-null  object 
+ 4   education_id           21348 non-null  int64  
+ 5   family_status          21348 non-null  object 
+ 6   family_status_id       21348 non-null  int64  
+ 7   gender                 21348 non-null  object 
+ 8   income_type            21348 non-null  object 
+ 9   debt                   21348 non-null  int64  
+ 10  total_income           21348 non-null  int64  
+ 11  purpose                21348 non-null  object 
+ 12  total_income_category  21348 non-null  object 
+ 13  purpose_category       21348 non-null  object 
+dtypes: float64(1), int64(6), object(7)
+memory usage: 2.4+ MB
+```
+
+## 3 Исследуйте данные и ответьте на вопросы
+
+**Задание 19. Есть ли зависимость между количеством детей и возвратом кредита в срок?**
+```
+pivot_child = data.pivot_table(index = 'children', values = 'debt', aggfunc = ['sum', 'count'])
+pivot_child['count'] = data.groupby('children')['debt'].count() # число займов
+pivot_child['sum'] = data.groupby('children')['debt'].sum() # число нарушений срока
+pivot_child['debt_%'] = (pivot_child['sum'] / pivot_child['count'] * 100).round(1)
+pivot_child.sort_values(by='debt_%', ascending=False)
+```
+```
+|          |  sum | count | debt_% |
+|:--------:|:----:|:-----:|:------:|
+|          | debt |  debt |        |
+| children |      |       |        |
+|     4    | 4    | 41    | 9.8    |
+|     2    | 194  | 2052  | 9.5    |
+|     1    | 444  | 4809  | 9.2    |
+|     3    | 27   | 330   | 8.2    |
+|     0    | 1063 | 14107 | 7.5    |
+|     5    | 0    | 9     | 0.0    |
+```
