@@ -122,3 +122,55 @@ Name: days_employed, dtype: float64
 ```
 data['children'].unique()
 ```
+```
+array([ 1,  0,  3,  2, -1,  4, 20,  5])
+```
+**Задание 9. В столбце `children` есть два аномальных значения. Удалите строки, в которых встречаются такие аномальные значения из датафрейма `data`.**
+```
+data = (data.loc[(data['children'] != -1) & (data['children'] != 20)]) 
+data['children'].unique()
+```
+ **Задание 10. Ещё раз выведите перечень уникальных значений столбца `children`, чтобы убедиться, что артефакты удалены.**
+ ```
+array([1, 0, 3, 2, 4, 5])
+```
+### Удаление пропусков (продолжение)
+
+**Задание 11. Заполните пропуски в столбце `days_employed` медианными значениями по каждому типу занятости `income_type`.**
+```
+data['days_employed'] = data['days_employed'].fillna(data.groupby('income_type')['days_employed'].transform('median'))
+```
+**Задание 12. Убедитесь, что все пропуски заполнены. Проверьте себя и ещё раз выведите количество пропущенных значений для каждого столбца с помощью двух методов.**
+```
+data.isna().sum()
+```
+```
+children            0
+days_employed       0
+dob_years           0
+education           0
+education_id        0
+family_status       0
+family_status_id    0
+gender              0
+income_type         0
+debt                0
+total_income        0
+purpose             0
+dtype: int64
+```
+### Изменение типов данных
+
+**Задание 13. Замените вещественный тип данных в столбце `total_income` на целочисленный с помощью метода `astype()`.**
+```
+data['total_income'] = data['total_income'].astype(int)
+```
+### Обработка дубликатов
+
+**Задание 14. Выведите на экран количество строк-дубликатов в данных. Если такие строки присутствуют, удалите их.**
+```
+data.duplicated().sum()
+```
+```
+54
+```
