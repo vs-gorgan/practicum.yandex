@@ -906,12 +906,32 @@ df['kitchen_area'].hist(bins = 100)
 df['last_price'].hist(bins = 100)
 ```
 ![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/77.png)
+
+Визуальное отображения разделения на квантили.
+
+Слева направо. Небольшое число дешевого жилья. Далее резкий рост и снова падение с длинным хвостом дорогой недвидимости.
+
 ```
+# построим гистограмму количества комнат
+df['rooms'].hist(bins=8)
 ```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/78.png)
+
+1 и 2 комнатные квартиры самые популярные. Далее 3-х комнатные. 4-х и 5-и комнатные бывают не во всех домах и составляют незначительное количество.
+
 ```
+# построим гистограмму высоты потолков
+df['ceiling_height'].hist(bins=7)
 ```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/79.png)
+
+Стандарт, есть стандарт 2.5 м. Далее 3 м (старые дома в центре или элитные новостройки). 
 ```
+# построим гистограмму этажа квартиры
+df['floor'].hist(bins=25)
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/185097411-56b4a8ac-205f-4cea-b3ea-9188186e7110.png)
+
 ```
 ```
 ```
