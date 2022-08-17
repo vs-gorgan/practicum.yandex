@@ -343,13 +343,84 @@ min         12.000000
 max        900.000000
 Name: total_area, dtype: float64
 ```
-```
 Применим функцию, которая создаст категории общей площади в разбивке по квантилям.
 
 - до 40 м2
 - до 52 м2
 - до 69 м2
 - более 70 м2
+```
+# функция по разбивке общей площади ка натегории
+def total_area_quantile(total_area):
+    if total_area < 40:
+        return 1
+    elif total_area < 52:
+        return 2
+    elif total_area < 69:
+        return 3
+    return 4
+```
+```
+# заполним новый столбец категориями общей площади
+df['total_area_quantile'] = df['total_area'].apply(total_area_quantile)
+```
+```
+# заполним пропуски жилой площади медианными значениями
+df['living_area'] = df['living_area'].fillna(df.groupby('total_area_quantile')['living_area'].transform('median'))
+```
+```
+# заполним пропуски площади кухни путём разницы общей площади имедианного значения жилой площади
+df['kitchen_area'] = df['kitchen_area'].fillna(df['total_area'] - df['living_area'])
+```
+```
+# заменим пропуски в характеристике апартаменты на Falce
+df['is_apartment'] = df['is_apartment'].fillna('Falce')
+```
+```
+# заменим пропуски в количестве этажей на unknown
+df['floors_total'] = df['floors_total'].fillna(df['floor'])
+```
+Ранее была создана переменная `skip`. Добавим в неё колонку с информацией после заполнения пропусков.
+```
+skip_after = pd.DataFrame(df.isna().sum()) \
+    .rename(columns={0: 'after'})
+skip['after'] = skip_after['after']
+skip
+```
+```
+before 	after
+total_images 	0 	0
+last_price 	0 	0
+total_area 	0 	0
+first_day_exposition 	0 	0
+rooms 	0 	0
+ceiling_height 	9195 	0
+floors_total 	86 	0
+living_area 	1903 	0
+floor 	0 	0
+is_apartment 	20924 	0
+studio 	0 	0
+open_plan 	0 	0
+kitchen_area 	2278 	0
+balcony 	11519 	0
+locality_name 	49 	47
+airports_nearest 	5542 	5521
+cityCenters_nearest 	5519 	5501
+parks_around3000 	5518 	5500
+parks_nearest 	15620 	15539
+ponds_around3000 	5518 	5500
+ponds_nearest 	14589 	14523
+days_exposition 	3181 	3153
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
 ```
 ```
 ```
