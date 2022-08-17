@@ -1220,5 +1220,31 @@ pivot_kitchen_area
 
 **4. зависит ли цена от количества комнат**
 ```
+pivot_floor = df.pivot_table(index='floor_type', values='last_price', aggfunc=['count', 'median'])
+pivot_floor
+```
+|    count   |   median   |            |
+|:----------:|:----------:|------------|
+|            | last_price | last_price |
+| floor_type |            |            |
+|   другой   | 16742      | 4749000.0  |
+|   первый   | 2843       | 3900000.0  |
+|  последний | 3163       | 4200000.0  |
+
+Разброс медианных значений цен не большой. Одноко, стоимость квартир на 1ом этаже неже других предложений.
+
+**5. зависит ли цена от даты размещения (день недели, месяц, год)**
+```
+pivot_day = df.pivot_table(index='day', values='last_price', aggfunc=['count', 'median'])
+pivot_month = df.pivot_table(index='month', values='last_price', aggfunc=['count', 'median'])
+pivot_year = df.pivot_table(index='year', values='last_price', aggfunc=['count', 'median'])
+pivot_day
+```
+```
+```
+```
+```
+```
+```
 ```
 ```
