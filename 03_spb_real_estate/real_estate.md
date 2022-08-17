@@ -654,7 +654,7 @@ df['locality_name_new'] = df['locality_name_new'].str.replace('имени ','')
 ```
 Обработка и удаление аномалий (редких значений)
 ```
-# начнём с колонки цена
+# начнём с колонки `цена`
 df.last_price.describe()
 ```
 ```
@@ -671,7 +671,7 @@ Name: last_price, dtype: float64
 ```
 df.boxplot('last_price')
 ```
-![изображение]([https://user-images.githubusercontent.com/104757775/185069227-d413344b-4013-48fe-98dc-d51dc15ba4b5.png](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/42.png))
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/42.png)
 
 ```
 # Посмотрим гистограмму
@@ -688,24 +688,58 @@ df.boxplot('last_price')
 ```
 ![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/45.png)
 ```
+# повторим методику для общей площади
 df.total_area.describe()
 ```
 ```
+count    22834.000000
+mean        56.612013
+std         24.552529
+min         12.000000
+25%         40.000000
+50%         51.000000
+75%         67.000000
+max        320.000000
+Name: total_area, dtype: float64
+```
+Медианное и среднее значения почти равны. Однако максимальное сильно выделяется
+```
+# посмотрим одномерное распределение
+df.boxplot('total_area')
+```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/47.png)
+```
+# построим гистограмму, выбрав число корзин равное 100 
+df['total_area'].hist(bins=100)
+```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/48.png)
+```
+# удалим строки со значением более 200
+df = df[df.total_area < 200]
 ```
 ```
+# удалим строки со значением менее 20
+df = df[df.total_area > 20]
 ```
 ```
+# повторим метод для анализа числа комнат
+df.rooms.describe()
 ```
 ```
+count    22756.000000
+mean         2.003516
+std          0.967903
+min          0.000000
+25%          1.000000
+50%          2.000000
+75%          3.000000
+max         11.000000
+Name: rooms, dtype: float64
 ```
 ```
+df.boxplot('rooms')
 ```
-```
-```
-```
-```
-```
-```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/52.png)
 ```
 ```
 ```
