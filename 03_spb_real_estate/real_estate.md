@@ -66,4 +66,4 @@ memory usage: 3.7+ MB
 ```
 df.hist(figsize=(15, 20))
 ```
-[!cover](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/hist.png)
+![cover](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/hist.png)
