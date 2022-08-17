@@ -872,15 +872,40 @@ df['cityCenters'] = (df['cityCenters_nearest'] / 1000).round(0)
 
 **4.1  Изучим параметры объектов**
 ```
+# построим гистограмму общей площади
+df.plot(y = 'total_area', kind = 'hist', bins = 100, grid=True, figsize = (5,3), range = (15,200))
 ```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/73.png)
 ```
+# можно применить hist. Он автоматически подберет параметры
+df['total_area'].hist(bins = 100)
 ```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/74.png)
+
+Среди объявлений недвижимости самые популярные предложения на квартиры с общей площадью от 30 до 40 м2
+
 ```
+# построим гистограмму жилой площади
+df['living_area'].hist(bins = 100)
 ```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/75.png)
+
+Однокомнатные квартиры захватили рынок. Странный пробел в значениях 25 м2.
+
+Однокомнатные квартиры могут быть как малой так и большой площади. Переход на гистограмме должен быть плавным.
+
 ```
+# построим гистограмму площади кухни
+df['kitchen_area'].hist(bins = 100)
 ```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/76.png)
+
+Одна, две, три или четыре комнты, не имеет значения, все кухни примерно одинаковые
 ```
+# построим гистограмму цены объекта
+df['last_price'].hist(bins = 100)
 ```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/77.png)
 ```
 ```
 ```
