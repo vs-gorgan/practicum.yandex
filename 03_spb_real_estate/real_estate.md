@@ -1196,7 +1196,8 @@ def kitchen_area_type(kitchen_area):
         return 'от 25 до 30 м2'
     return 'более 30 м2'
 ```
-# создадом колонку, к которой применем группу на основании данных из living_area
+```
+# создадим колонку, к которой применем группу на основании данных из living_area
 df['kitchen_area_type'] = df['kitchen_area'].apply(kitchen_area_type)
 ```
 ```
