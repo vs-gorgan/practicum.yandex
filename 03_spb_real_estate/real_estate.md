@@ -707,7 +707,7 @@ Name: total_area, dtype: float64
 # посмотрим одномерное распределение
 df.boxplot('total_area')
 ```
-![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/47.png)
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/47.bmp)
 ```
 # построим гистограмму, выбрав число корзин равное 100 
 df['total_area'].hist(bins=100)
@@ -741,23 +741,59 @@ df.boxplot('rooms')
 ```
 ![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/52.png)
 ```
+df['rooms'].hist(range=(0, 7), bins=7)
+```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/53.png)
+
+Вау, есть 11 комнат, а есть объявления без комнат.
+
+Проверим. Вероятно ноль комнат это апартаменты.
+```
+df.query('rooms == 0').groupby('is_apartment')['is_apartment'].count()
 ```
 ```
+is_apartment
+False      5
+True     177
+Name: is_apartment, dtype: int64
+```
+Подтвердилось. Удалим 5 строк не относящихся к апартаментам
+```
+df.drop(df[(df.rooms == 0) & (df.is_apartment == False)].index, inplace=True)
 ```
 ```
+# рассмотрим информацию о квартире с 11-ю комнатами
+df.query('rooms > 10')
+```
+|     | total_images | last_price | total_area | first_day_exposition | rooms | ceiling_height | floors_total | living_area | floor | is_apartment | ... |   locality_name | airports_nearest | cityCenters_nearest | parks_around3000 | parks_nearest | ponds_around3000 | ponds_nearest | days_exposition | total_area_quantile | locality_name_new |
+|----:|-------------:|-----------:|-----------:|---------------------:|------:|---------------:|-------------:|------------:|------:|-------------:|----:|----------------:|-----------------:|--------------------:|-----------------:|--------------:|-----------------:|--------------:|----------------:|--------------------:|------------------:|
+| 648 | 3            | 17500000.0 | 183.7      | 2018-07-01           | 11    | 3.4            | 7.0          | 138.8       | 7     | True         | ... | Санкт-Петербург | 23606.0          | 3148.0              | 0.0              | NaN           | 0.0              | NaN           | NaN             | 4                   | Санкт-Петербург   |
+
+Общая площадь - большая. Возможно, цена тоже соответствует рыночной стоимости. Но, нет ни одного балкона, всего 3 фото на 11 комнат, последний этаж и категория апартаменты. Это может быть нежилым помещением.
+
+```
+# Исключим объявление с 11-ю комнатами
+df = df[df.rooms != 11]
 ```
 ```
+# продолжим обработку аномалий в столбце этаж
+df.floors_total.describe()
 ```
 ```
+count    22750.000000
+mean        10.764484
+std          6.635072
+min          1.000000
+25%          5.000000
+50%          9.000000
+75%         16.000000
+max         60.000000
+Name: floors_total, dtype: float64
 ```
 ```
+df.boxplot('floors_total')
 ```
-```
-```
-```
-```
-```
-```
+![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/59.png)
 ```
 ```
 ```
