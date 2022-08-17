@@ -26,3 +26,44 @@ df.head()
 | 2 | 10           | 5196000.0  | 56.0       | 2015-08-20T00:00:00  | 2     | NaN            | 5.0          | 34.3        | 4     | NaN          | ... | 8.3          | 0.0     | Санкт-Петербург | 21741.0          | 13933.0             | 1.0              | 90.0          | 2.0              | 574.0         | 558.0           |
 | 3 | 0            | 64900000.0 | 159.0      | 2015-07-24T00:00:00  | 3     | NaN            | 14.0         | NaN         | 9     | NaN          | ... | NaN          | 0.0     | Санкт-Петербург | 28098.0          | 6800.0              | 2.0              | 84.0          | 3.0              | 234.0         | 424.0           |
 | 4 | 2            | 10000000.0 | 100.0      | 2018-06-19T00:00:00  | 2     | 3.03           | 14.0         | 32.0        | 13    | NaN          | ... | 41.0         | NaN     | Санкт-Петербург | 31856.0          | 8098.0              | 2.0              | 112.0         | 1.0              | 48.0          | 121.0           |
+
+изучим общую информацию о датафрейме
+```
+df.info()
+```
+```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 23699 entries, 0 to 23698
+Data columns (total 22 columns):
+ #   Column                Non-Null Count  Dtype  
+---  ------                --------------  -----  
+ 0   total_images          23699 non-null  int64  
+ 1   last_price            23699 non-null  float64
+ 2   total_area            23699 non-null  float64
+ 3   first_day_exposition  23699 non-null  object 
+ 4   rooms                 23699 non-null  int64  
+ 5   ceiling_height        14504 non-null  float64
+ 6   floors_total          23613 non-null  float64
+ 7   living_area           21796 non-null  float64
+ 8   floor                 23699 non-null  int64  
+ 9   is_apartment          2775 non-null   object 
+ 10  studio                23699 non-null  bool   
+ 11  open_plan             23699 non-null  bool   
+ 12  kitchen_area          21421 non-null  float64
+ 13  balcony               12180 non-null  float64
+ 14  locality_name         23650 non-null  object 
+ 15  airports_nearest      18157 non-null  float64
+ 16  cityCenters_nearest   18180 non-null  float64
+ 17  parks_around3000      18181 non-null  float64
+ 18  parks_nearest         8079 non-null   float64
+ 19  ponds_around3000      18181 non-null  float64
+ 20  ponds_nearest         9110 non-null   float64
+ 21  days_exposition       20518 non-null  float64
+dtypes: bool(2), float64(14), int64(3), object(3)
+memory usage: 3.7+ MB
+```
+Построим общую гистограмму для всех столбцов таблицы.
+```
+df.hist(figsize=(15, 20))
+```
+[!cover](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/hist.png)
