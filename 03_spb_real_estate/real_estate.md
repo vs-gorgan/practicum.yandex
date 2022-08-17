@@ -654,6 +654,7 @@ df['locality_name_new'] = df['locality_name_new'].str.replace('имени ','')
 ```
 Обработка и удаление аномалий (редких значений)
 ```
+# начнём с колонки цена
 df.last_price.describe()
 ```
 ```
@@ -687,6 +688,7 @@ df.boxplot('last_price')
 ```
 ![изображение](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/45.png)
 ```
+df.total_area.describe()
 ```
 ```
 ```
