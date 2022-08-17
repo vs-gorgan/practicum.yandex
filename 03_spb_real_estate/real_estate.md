@@ -834,6 +834,59 @@ df.shape
 ```
 `0.04012827545466058`
 Количество строк сократилось на 4%. 
+
+### 3. Посчитайте и добавьте в таблицу новые столбцы
+```
+# цена одного квадратного метра
+df['price_m2'] = pd.to_numeric((df['last_price'] / df['total_area']), errors='coerce').round(1)
+```
+```
+# добавим день недели публикации объявления (0 — понедельник, 1 — вторник и так далее)
+df['day'] = df['first_day_exposition'].dt.weekday
+```
+```
+# добавим месяц и год публикации объявления
+df['month'] = df['first_day_exposition'].dt.month
+df['year'] = df['first_day_exposition'].dt.year
+```
+Создадим функцию с категорией этажа `первый`, `последний`, `другой`
+```
+def floor_type(row):
+    floors_total = row['floors_total']
+    floor = row['floor']
+    if floor == 1:
+        return 'первый'
+    elif floor == floors_total:
+        return 'последний'
+    return 'другой'
+```
+```
+# применим floor_type для заполнения новой колонки
+df['floor_type'] = df.apply(floor_type, axis = 1)
+```
+```
+# переведём расстояние до центра города в километры
+df['cityCenters'] = (df['cityCenters_nearest'] / 1000).round(0)
+```
+### 4. Проведите исследовательский анализ данных
+
+**4.1  Изучим параметры объектов**
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
 ```
 ```
 ```
