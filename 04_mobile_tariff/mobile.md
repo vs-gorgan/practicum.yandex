@@ -43,7 +43,8 @@ memory usage: 6.2+ MB
 ```
 calls.duration.hist()
 ```
-![изображение](https://user-images.githubusercontent.com/104757775/185745545-7352d9c4-2ca9-4608-bf23-43bfb670004f.png)
+![изображение](https://user-images.githubusercontent.com/104757775/185745744-5514dbf1-1f7f-4280-9126-6bac866fff05.png)
+
 
 ### 5. Откройте файл `/datasets/internet.csv`, сохраните датафрейм в переменную `sessions`.
 ```
