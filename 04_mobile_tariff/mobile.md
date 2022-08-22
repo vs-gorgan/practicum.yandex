@@ -224,12 +224,14 @@ import numpy as np
 # округление значений столбца duration с помощью np.ceil() и приведение типа к int
 calls['duration'] = np.ceil(calls['duration']).astype('int')
 ```
-**Удалите столбец `Unnamed: 0` из датафрейма `sessions`. Столбец с таким названием возникает, когда данные сохраняют с указанием индекса (`df.to_csv(..., index=column)`). Он сейчас не понадобится.**
+**20. Удалите столбец `Unnamed: 0` из датафрейма `sessions`. Столбец с таким названием возникает, когда данные сохраняют с указанием индекса (`df.to_csv(..., index=column)`). Он сейчас не понадобится.**
 ```
 sessions = sessions.drop(['Unnamed: 0'], axis=1)
 ```
-**Создайте столбец `month` в датафрейме `calls` с номером месяца из столбца `call_date`.**
+**21. Создайте столбец `month` в датафрейме `calls` с номером месяца из столбца `call_date`.**
 ```
+calls['month'] = calls['call_date'].dt.month
+calls.head()
 ```
 ```
 ```
