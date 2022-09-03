@@ -1315,7 +1315,7 @@ top_10.head(10)
 ```
 # 10 населённых пунктов с наибольшим числом объявлений
 df['locality_name_new'].value_counts()[:10]
-```
+
 |-----------------|-------|
 | Санкт-Петербург | 14842 |
 | Мурино          | 584   |
@@ -1327,7 +1327,7 @@ df['locality_name_new'].value_counts()[:10]
 | Парголово       | 326   |
 | Гатчина         | 306   |
 | Выборг          | 235   |
-```
+
 # создадим сводную таблицу, содержащую среднюю цену одного квадратного метра в 10 населённых пунктах с наибольшим числом объявлений
 top = df.pivot_table(index='locality_name_new', values='price_m2', aggfunc = ['count', 'mean'])
 top_head = top.sort_values(by=[('count', 'price_m2')], ascending=False).head(10)
