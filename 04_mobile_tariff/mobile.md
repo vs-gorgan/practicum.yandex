@@ -599,16 +599,59 @@ plt.show()
 ```
 ![изображение](https://user-images.githubusercontent.com/104757775/188288007-7116f0fa-b39d-4277-a457-4ed46a5c37ec.png)
 
+Распределение средней продолжительности звонков по видам тарифов и месяцам
 ```
+ax = sns.barplot(x='month',
+            y='minutes_mean',
+            hue="tariff",
+            data=stats_df,
+            palette=['lightblue', 'blue'])
+
+ax.set_title('Распределение продолжительности звонков по видам тарифов и месяцам')
+ax.set(xlabel='Номер месяца', ylabel='Средняя продолжительность звонков');
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/188288194-b6f733a1-aacb-4c7d-87ad-2896cfb1a36e.png)
+
 ```
+user_behavior[user_behavior['tariff'] =='smart']['minutes'].hist(bins=35, alpha=0.5, color='green')
+user_behavior[user_behavior['tariff'] =='ultra']['minutes'].hist(bins=35, alpha=0.5, color='blue');
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/188288211-d7547163-eed5-434e-b47d-46bee8e1af50.png)
+
+Средняя длительность разговоров у абонентов тарифа Ultra больше, чем у абонентов тарифа Smart. В течение года пользователи обоих тарифов увеличивают среднюю продолжительность своих разговоров. Рост средней длительности разговоров у абонентов тарифа Smart равномерный в течение года. Пользователи тарифа Ultra не проявляют подобной линейной стабильности. Стоит отметить, что феврале у абонентов обоих тарифных планов наблюдались самые низкие показатели.
+
+Распределение среднего количества сообщений по видам тарифов и месяцам
+
 ```
+ax = sns.barplot(x='month',
+            y='messages_mean',
+            hue="tariff",
+            data=stats_df,
+            palette=['lightblue', 'blue']
+)
+
+ax.set_title('Распределение количества сообщений по видам тарифов и месяцам')
+ax.set(xlabel='Номер месяца', ylabel='Среднее количество звонков');
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/188288236-87013250-deb0-4e36-946b-eafc2183d939.png)
+
 ```
+user_behavior[user_behavior['tariff'] =='smart']['messages'].hist(bins=35, alpha=0.5, color='green')
+user_behavior[user_behavior['tariff'] =='ultra']['messages'].hist(bins=35, alpha=0.5, color='blue');
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/188288251-17606584-ad94-4d09-b011-8cfd383d4739.png)
+
+В среднем количество сообщений пользователи тарифа Ultra отправляют больше - почти на 20 сообщений больше, чем пользователи тарифа Smart. Количество сообщений в течение года на обоих тарифак растет. Динамика по отправке сообщений схожа с тенденциями по длительности разговоров: в феврале отмечено наименьшее количество сообщений за год и пользователи тарифа Ultra также проявляют нелинейную полодительную динамику.
 ```
-```
+ax = sns.barplot(x='month',
+            y='sessions_mean',
+            hue="tariff",
+            data=stats_df,
+            palette=['lightblue', 'blue']
+)
+
+ax.set_title('Распределение количества потраченного трафика (Мб) по видам тарифов и месяцам')
+ax.set(xlabel='Номер месяца', ylabel='Среднее количество мегабайт');
 ```
 ```
 ```
