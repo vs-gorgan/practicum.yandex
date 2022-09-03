@@ -4,7 +4,7 @@
 
 Вам предстоит сделать предварительный анализ тарифов на небольшой выборке клиентов. В вашем распоряжении данные 500 пользователей «Мегалайна»: кто они, откуда, каким тарифом пользуются, сколько звонков и сообщений каждый отправил за 2018-й год. Нужно проанализировать поведение клиентов и сделать вывод — какой тариф лучше.
 
-### Откройте файл с данными и изучите общую информацию
+### 1. Откройте файл с данными и изучите общую информацию
 
 **1. Откройте файл `/datasets/calls.csv`, сохраните датафрейм в переменную `calls`.**
 
@@ -192,7 +192,7 @@ Data columns (total 8 columns):
 dtypes: int64(2), object(6)
 memory usage: 31.4+ KB
 ```
-### 2 .Подготовьте данные
+### 2. Подготовьте данные
 
 **18.  Приведите столбцы:**
 
@@ -355,39 +355,222 @@ minutes_per_month.head(30)
 
 Выведите первые 30 строчек `messages_per_month`.
 ```
+# подсчёт количества отправленных сообщений для каждого пользователя по месяцам
+messages_per_month = messages.groupby(['user_id', 'month']) \
+    .agg(messages = ('message_date', 'count'))
 ```
 ```
+# вывод первых 30 строк на экран
+messages_per_month.head(30)
+```
+|         |       | messages |
+|--------:|------:|---------:|
+| user_id | month |          |
+|   1000  |   5   | 22       |
+|         |   6   | 60       |
+|         |   7   | 75       |
+|         |   8   | 81       |
+|         |   9   | 57       |
+|         |   10  | 73       |
+|         |   11  | 58       |
+|         |   12  | 70       |
+|   1002  |   6   | 4        |
+|         |   7   | 11       |
+|         |   8   | 13       |
+|         |   9   | 4        |
+|         |   10  | 10       |
+|         |   11  | 16       |
+|         |   12  | 12       |
+|   1003  |   8   | 37       |
+|         |   9   | 91       |
+|         |   10  | 83       |
+|         |   11  | 94       |
+|         |   12  | 75       |
+|   1004  |   5   | 95       |
+|         |   6   | 134      |
+|         |   7   | 181      |
+|         |   8   | 151      |
+|         |   9   | 146      |
+|         |   10  | 165      |
+|         |   11  | 158      |
+|         |   12  | 162      |
+|   1005  |   1   | 7        |
+|         |   2   | 38       |
+
+**27. Посчитайте количество потраченных мегабайт по месяцам для каждого пользователя и сохраните в переменную `sessions_per_month`.**
+
+Вам понадобится
+
+- сгруппировать датафрейм с информацией о сообщениях по двум столбцам — с идентификаторами пользователей и номерами месяцев;
+- затем применить метод для подсчёта суммы: `.agg({'mb_used': 'sum'})`
+```
+# подсчёт потраченных мегабайт для каждого пользователя по месяцам
+sessions_per_month = sessions.groupby(['user_id', 'month']) \
+    .agg({'mb_used': 'sum'})
 ```
 ```
+# вывод первых 30 строк на экран
+sessions_per_month.head(30)
+```
+|         |       |  mb_used |
+|--------:|------:|---------:|
+| user_id | month |          |
+|   1000  |   5   | 2253.49  |
+|         |   6   | 23233.77 |
+|         |   7   | 14003.64 |
+|         |   8   | 14055.93 |
+|         |   9   | 14568.91 |
+|         |   10  | 14702.49 |
+|         |   11  | 14756.47 |
+|         |   12  | 9817.61  |
+|   1001  |   11  | 18429.34 |
+|         |   12  | 14036.66 |
+|   1002  |   6   | 10856.82 |
+|         |   7   | 17580.10 |
+|         |   8   | 20319.26 |
+|         |   9   | 16691.08 |
+|         |   10  | 13888.25 |
+|         |   11  | 18587.28 |
+|         |   12  | 18113.73 |
+|   1003  |   8   | 8565.21  |
+|         |   9   | 12468.87 |
+|         |   10  | 14768.14 |
+|         |   11  | 11356.89 |
+|         |   12  | 10121.53 |
+|   1004  |   5   | 13403.98 |
+|         |   6   | 17600.02 |
+|         |   7   | 22229.58 |
+|         |   8   | 28584.37 |
+|         |   9   | 15109.03 |
+|         |   10  | 18475.44 |
+|         |   11  | 15616.02 |
+|         |   12  | 18021.04 |
+
+### 3. Анализ данных и подсчёт выручки
+
+Объединяем все посчитанные выше значения в один датафрейм `user_behavior`.
+Для каждой пары "пользователь - месяц" будут доступны информация о тарифе, количестве звонков, сообщений и потраченных мегабайтах.
+```
+users['churn_date'].count() / users['churn_date'].shape[0] * 100
 ```
 ```
+7.6
+```
+Расторгли договор 7.6% клиентов из датасета
+```
+user_behavior = calls_per_month\
+    .merge(messages_per_month, left_index=True, right_index=True, how='outer')\
+    .merge(sessions_per_month, left_index=True, right_index=True, how='outer')\
+    .merge(minutes_per_month, left_index=True, right_index=True, how='outer')\
+    .reset_index()\
+    .merge(users, how='left', left_on='user_id', right_on='user_id')\
+
+user_behavior.head()
+```
+|   | user_id | month | calls | messages |  mb_used | minutes | age | churn_date |      city | first_name | last_name |   reg_date | tariff |
+|--:|--------:|------:|------:|---------:|---------:|--------:|----:|-----------:|----------:|-----------:|----------:|-----------:|-------:|
+| 0 | 1000    | 5     | 22.0  | 22.0     | 2253.49  | 159.0   | 52  | NaT        | Краснодар | Рафаил     | Верещагин | 2018-05-25 | ultra  |
+| 1 | 1000    | 6     | 43.0  | 60.0     | 23233.77 | 172.0   | 52  | NaT        | Краснодар | Рафаил     | Верещагин | 2018-05-25 | ultra  |
+| 2 | 1000    | 7     | 47.0  | 75.0     | 14003.64 | 340.0   | 52  | NaT        | Краснодар | Рафаил     | Верещагин | 2018-05-25 | ultra  |
+| 3 | 1000    | 8     | 52.0  | 81.0     | 14055.93 | 408.0   | 52  | NaT        | Краснодар | Рафаил     | Верещагин | 2018-05-25 | ultra  |
+| 4 | 1000    | 9     | 58.0  | 57.0     | 14568.91 | 466.0   | 52  | NaT        | Краснодар | Рафаил     | Верещагин | 2018-05-25 | ultra  |
+
+Проверим пропуски в таблице `user_behavior` после объединения:
+```
+user_behavior.isna().sum()
 ```
 ```
+user_id          0
+month            0
+calls           40
+messages       497
+mb_used         11
+minutes         40
+age              0
+churn_date    3027
+city             0
+first_name       0
+last_name        0
+reg_date         0
+tariff           0
+dtype: int64
+```
+Заполним образовавшиеся пропуски в данных:
+```
+user_behavior['calls'] = user_behavior['calls'].fillna(0)
+user_behavior['minutes'] = user_behavior['minutes'].fillna(0)
+user_behavior['messages'] = user_behavior['messages'].fillna(0)
+user_behavior['mb_used'] = user_behavior['mb_used'].fillna(0)
+```
+Присоединяем информацию о тарифах
+```
+# переименование столбца tariff_name на более простое tariff
+
+tariffs = tariffs.rename(
+    columns={
+        'tariff_name': 'tariff'
+    }
+)
 ```
 ```
+user_behavior = user_behavior.merge(tariffs, on='tariff')
 ```
+Считаем количество минут разговора, сообщений и мегабайт, превышающих включенные в тариф
 ```
+user_behavior['paid_minutes'] = user_behavior['minutes'] - user_behavior['minutes_included']
+user_behavior['paid_messages'] = user_behavior['messages'] - user_behavior['messages_included']
+user_behavior['paid_mb'] = user_behavior['mb_used'] - user_behavior['mb_per_month_included']
+
+for col in ['paid_messages', 'paid_minutes', 'paid_mb']:
+    user_behavior.loc[user_behavior[col] < 0, col] = 0
 ```
+Переводим превышающие тариф мегабайты в гигабайты и сохраняем в столбец `paid_gb`
 ```
+user_behavior['paid_gb'] = np.ceil(user_behavior['paid_mb'] / 1024).astype(int)
 ```
+Считаем выручку за минуты разговора, сообщения и интернет
 ```
+user_behavior['cost_minutes'] = user_behavior['paid_minutes'] * user_behavior['rub_per_minute']
+user_behavior['cost_messages'] = user_behavior['paid_messages'] * user_behavior['rub_per_message']
+user_behavior['cost_gb'] = user_behavior['paid_gb'] * user_behavior['rub_per_gb']
 ```
+Считаем помесячную выручку с каждого пользователя, она будет храниться в столбец `total_cost`
 ```
+user_behavior['total_cost'] = \
+      user_behavior['rub_monthly_fee']\
+    + user_behavior['cost_minutes']\
+    + user_behavior['cost_messages']\
+    + user_behavior['cost_gb']
 ```
+Датафрейм `stats_df` для каждой пары "месяц-тариф" будет хранить основные характеристики
 ```
+# сохранение статистических метрик для каждой пары месяц-тариф
+# в одной таблице stats_df (среднее значение, стандартное отклонение, медиана)
+
+stats_df = user_behavior.pivot_table(
+            index=['month', 'tariff'],\
+            values=['calls', 'minutes', 'messages', 'mb_used'],\
+            aggfunc=['mean', 'std', 'median']\
+).round(2).reset_index()
+
+stats_df.columns=['month', 'tariff', 'calls_mean', 'sessions_mean', 'messages_mean', 'minutes_mean',
+                                     'calls_std',  'sessions_std', 'messages_std', 'minutes_std', 
+                                     'calls_median', 'sessions_median', 'messages_median',  'minutes_median']
+
+stats_df.head(10)
 ```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
+|   | month | tariff | calls_mean | sessions_mean | messages_mean | minutes_mean | calls_std | sessions_std | messages_std | minutes_std | calls_median | sessions_median | messages_median | minutes_median |
+|--:|------:|-------:|-----------:|--------------:|--------------:|-------------:|----------:|-------------:|-------------:|------------:|-------------:|----------------:|----------------:|---------------:|
+| 0 | 1     | smart  | 27.68      | 8513.72       | 18.24         | 203.85       | 20.81     | 6444.68      | 16.20        | 154.23      | 20.5         | 7096.18         | 15.0            | 162.5          |
+| 1 | 1     | ultra  | 59.44      | 13140.68      | 33.78         | 428.11       | 41.64     | 6865.35      | 30.67        | 269.76      | 51.0         | 14791.37        | 32.0            | 382.0          |
+| 2 | 2     | smart  | 40.19      | 11597.05      | 24.09         | 298.69       | 25.39     | 6247.35      | 21.75        | 190.82      | 38.5         | 12553.71        | 20.0            | 258.0          |
+| 3 | 2     | ultra  | 41.54      | 11775.94      | 21.96         | 297.12       | 40.97     | 10644.64     | 26.77        | 296.51      | 25.0         | 7327.12         | 5.5             | 168.0          |
+| 4 | 3     | smart  | 54.32      | 15104.16      | 31.86         | 390.05       | 25.54     | 5828.24      | 26.80        | 191.89      | 59.0         | 15670.25        | 23.0            | 409.0          |
+| 5 | 3     | ultra  | 67.68      | 17535.55      | 32.30         | 489.65       | 44.84     | 10951.79     | 41.62        | 333.74      | 57.0         | 17495.18        | 20.0            | 403.0          |
+| 6 | 4     | smart  | 51.31      | 13462.18      | 30.74         | 367.13       | 25.70     | 5698.25      | 24.54        | 186.49      | 52.0         | 14087.65        | 28.0            | 368.5          |
+| 7 | 4     | ultra  | 64.09      | 16828.13      | 31.56         | 458.02       | 36.27     | 9718.65      | 37.51        | 267.68      | 61.0         | 16645.78        | 17.0            | 453.0          |
+| 8 | 5     | smart  | 55.24      | 15805.18      | 33.77         | 387.36       | 25.38     | 5978.23      | 27.04        | 186.60      | 59.0         | 16323.94        | 30.0            | 433.0          |
+| 9 | 5     | ultra  | 72.51      | 19363.15      | 37.85         | 510.33       | 41.08     | 10046.11     | 40.31        | 289.60      | 75.0         | 18696.43        | 25.0            | 519.0          |
 ```
 ```
 ```
