@@ -571,10 +571,34 @@ stats_df.head(10)
 | 7 | 4     | ultra  | 64.09      | 16828.13      | 31.56         | 458.02       | 36.27     | 9718.65      | 37.51        | 267.68      | 61.0         | 16645.78        | 17.0            | 453.0          |
 | 8 | 5     | smart  | 55.24      | 15805.18      | 33.77         | 387.36       | 25.38     | 5978.23      | 27.04        | 186.60      | 59.0         | 16323.94        | 30.0            | 433.0          |
 | 9 | 5     | ultra  | 72.51      | 19363.15      | 37.85         | 510.33       | 41.08     | 10046.11     | 40.31        | 289.60      | 75.0         | 18696.43        | 25.0            | 519.0          |
+
+Распределение среднего количества звонков по видам тарифов и месяцам
+
 ```
+import seaborn as sns
+
+ax = sns.barplot(x='month',
+            y='calls_mean',
+            hue="tariff",
+            data=stats_df,
+            palette=['lightblue', 'blue'])
+
+ax.set_title('Распределение количества звонков по видам тарифов и месяцам')
+ax.set(xlabel='Номер месяца', ylabel='Среднее количество звонков');
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/188287283-c0a2754f-dd17-4d0a-9896-7adf8d3d2c9b.png)
+
 ```
+import matplotlib.pyplot as plt
+
+user_behavior.groupby('tariff')['calls'].plot(kind='hist', bins=35, alpha=0.5)
+plt.legend(['Smart', 'Ultra'])
+plt.xlabel('Количество звонков')
+plt.ylabel('Количество клиентов')
+plt.show()
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/188288007-7116f0fa-b39d-4277-a457-4ed46a5c37ec.png)
+
 ```
 ```
 ```
