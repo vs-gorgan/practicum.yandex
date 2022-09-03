@@ -669,11 +669,37 @@ user_behavior[user_behavior['tariff'] =='ultra']['mb_used'].hist(bins=35, alpha=
 **28. Проверка гипотезы: средняя выручка пользователей тарифов «Ультра» и «Смарт» различаются**
 
 H_0: Выручка (total_cost) пользователей "Ультра" = выручка (total_cost) пользователей "Смарт"`
+
 H_a: Выручка (total_cost) пользователей "Ультра" ≠ выручка (total_cost) пользователей "Смарт"`
+
 alpha = 0.05
 ```
+from scipy import stats as st
 ```
 ```
+results = st.ttest_ind(
+    user_behavior.loc[user_behavior.tariff == 'ultra', 'total_cost'],
+    user_behavior.loc[user_behavior.tariff == 'smart', 'total_cost'], 
+    equal_var=False)
+ 
+alpha = 0.05
+ 
+print(results.pvalue)
+ 
+if results.pvalue < alpha:
+    print("Отвергаем нулевую гипотезу")
+else:
+    print("Не получилось отвергнуть нулевую гипотезу")
+```
+4.2606313931076085e-250
+Отвергаем нулевую гипотезу
+
+**29. Проверка гипотезы: пользователи из Москвы приносят больше выручки, чем пользователи из других городов**
+
+```
+H_0: Выручка (total_cost) пользователей из Москвы = выручка (total_cost) пользователей не из Москвы`
+H_1: Выручка (total_cost) пользователей из Москвы ≠ выручка (total_cost) пользователей не из Москвы`
+alpha = 0.05
 ```
 ```
 ```
