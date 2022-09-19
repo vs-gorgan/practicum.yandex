@@ -1037,17 +1037,90 @@ pivot_ganre.sort_values(by='jp_sales', ascending=False)
 |  6 | Racing       | 8.74     | 14.13    | 1.76     |
 | 11 | Strategy     | 0.98     | 1.79     | 0.95     |
 |  5 | Puzzle       | 0.65     | 0.52     | 0.93     |
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
 
+В Северной Америке и Европе первые три популярных жанра схожие. Лидер в Японии - `Role-Playing`. Далее предпочтения Японцев схожие - `Action`.
+```
+# создадим список значений с продажами по NA
+values_na = pivot_ganre.na_sales.round(1).sort_values(ascending = False).tolist()
+values_na = values_na[:5]
+other_na = (pivot_ganre.na_sales.round(1).sort_values(ascending = False)[5:]).sum()
+values_na.append(other_na)
 
+# создадим список значений с продажами по EU
+values_eu = pivot_ganre.eu_sales.round(1).sort_values(ascending = False).tolist()
+values_eu = values_eu[:5]
+other_eu = (pivot_ganre.eu_sales.round(1).sort_values(ascending = False)[5:]).sum()
+values_eu.append(other_eu)
 
+# создадим список значений с продажами по JP
+values_jp = pivot_ganre.jp_sales.round(1).sort_values(ascending = False).tolist()
+values_jp = values_jp[:5]
+other_jp = (pivot_ganre.jp_sales.round(1).sort_values(ascending = False)[5:]).sum()
+values_jp.append(other_jp)
+```
+```
+labels_na = ['Action','Adventure','Sports','Role-Playing', 'Misc', 'other']
+plt.pie(values_na,labels=labels_na,autopct='%1.1f%%')
+plt.axis('equal')
+plt.title('Пирог для NA')
+plt.show()
+
+labels_eu = ['Action','Shooter','Fighting','Misc', 'Platform', 'other']
+plt.pie(values_eu,labels=labels_eu,autopct='%1.1f%%')
+plt.axis('equal')
+plt.title('Пирог для EU')
+plt.show()
+
+labels_jp = ['Role-Playing','Action','Misc','Fighting', 'Platform', 'other']
+plt.pie(values_jp,labels=labels_jp,autopct='%1.1f%%')
+plt.axis('equal')
+plt.title('Пирог для JP')
+plt.show()
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191040937-e52a86a8-3fb7-42b0-a144-28dbc12a9a4a.png)
+
+***************
+```
+# Построение круговых диаграмм через цикл
+games_fresh = data_actual.copy()
+countries = games_fresh.columns[4:7]
+# начертим круговую диаграмму для каждого региона
+fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+fig.suptitle('ТОП-5 жанров в регионах')
+for i in range(3):
+  # выберем 5 самых продающих жанров
+  df_i = (games_fresh.groupby('genre')[countries[i]].sum().
+             reset_index().
+             sort_values(countries[i], ascending = False, ignore_index = True).
+             head(5))
+  # занесем все остальыне продажи в другие жанры
+  df_i = df_i.append({'genre': 'Other_genre', countries[i]: games_fresh[countries[i]].sum() - df_i[countries[i]].sum()}, ignore_index= True)
+  axs[i].pie(df_i[countries[i]], labels = df_i['genre'], autopct='%1.1f%%')
+  # Зададим название региона.
+  axs[i].set_title(df_i.columns[1].split('_')[0].upper())
+plt.show()
+```
+***************
+
+### 5  Проверьте гипотезы
+
+**5.1  Средние пользовательские рейтинги платформ Xbox One и PC одинаковые**
+
+H_0: Пользовательские рейтинги (user_score) платформы "Xbox One" = Пользовательским рейтингам (u_s_copy)  платформы "PC"  
+H_a: Пользовательские рейтинги (user_score) платформы "Xbox One" ≠ Пользовательским рейтингам (u_s_copy)  платформы "PC"  
+alpha = 0.05
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
