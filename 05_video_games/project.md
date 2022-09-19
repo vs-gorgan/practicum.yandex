@@ -678,6 +678,70 @@ year.query('min > 2011').sort_values(by = 'total_sales').tail(1)
 
 Определено однозначно, **PS4** - самая популярная платформа.
 ```
+# Диаграмма рассеяния соотношения числа копий к отзывам пользователей
+data_actual.query('platform == "PS4"') \
+    .plot(x='user_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 3);
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191011881-434a57af-ee01-445c-b5b2-72a9a892ed2d.png)
+
+```
+data_actual.query('platform == "PS4" and user_score > 1')['user_score'].corr(data_actual['total_sales'])
+```
+`-0.040131589472697356` 
+Отрицательная корреляция означает, что изменение одной величины приводит противоположному изменению другой.
+```
+# Диаграмма рассеяния соотношения числа копий к отзывам критиков
+data_actual.query('platform == "PS4"') \
+    .plot(x='critic_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 10);
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191012044-01b89042-ae49-4729-9a12-2dd227b8daa5.png)
+
+```
+data_actual.query('platform == "PS4" and user_score > 1')['critic_score'].corr(data_actual['total_sales'])
+```
+`0.40190287811475334`
+В случае с зависимостью объёма продаж с рейтингом критиков корреляция слабая
+
+**3.8  Соотнесите выводы с продажами игр на других платформах.**
+
+Проделаем предыдущий анализ для других популярных платформ.
+Выведем их список:
+```
+pd.DataFrame(
+    data_actual.groupby('platform')['total_sales'] \
+             .sum() \
+             .reset_index() \
+             .sort_values('total_sales', ascending=False) \
+             .head()
+            ).reset_index()
+```
+|   | index | platform | total_sales |
+|--:|------:|---------:|------------:|
+| 0 | 3     | PS4      | 288.15      |
+| 1 | 9     | XOne     | 140.36      |
+| 2 | 0     | 3DS      | 86.68       |
+| 3 | 2     | PS3      | 68.18       |
+| 4 | 8     | X360     | 48.22       |
+```
+# построим для XOne
+data_actual.query('platform == "XOne"') \
+    .plot(x='user_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 5);
+plt.xlabel('Пользовательские оценки')
+plt.ylabel('Проданные копии, млн')
+plt.title('Диаграмма рассеяния для XOne')
+
+data_actual.query('platform == "XOne"') \
+    .plot(x='critic_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 5);
+plt.xlabel('Оценки критиков')
+plt.ylabel('Проданные копии, млн')
+plt.title('Диаграмма рассеяния для XOne')
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191012637-c7161278-f967-4b80-8efd-1f081e4e2c4d.png)
+
 ```
 ```
 ```
@@ -707,4 +771,18 @@ year.query('min > 2011').sort_values(by = 'total_sales').tail(1)
 ```
 ```
 ```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+
+
 
