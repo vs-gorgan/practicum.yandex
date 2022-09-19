@@ -269,15 +269,53 @@ data.query('user_score == "tbd"')
 | 16704 | Plushees                       | DS       | 2008            | Simulation | 0.01     | 0.00     | 0.0      | 0.00        | NaN          | tbd        | E      |
 | 16706 | Men in Black II: Alien Escape  | GC       | 2003            | Shooter    | 0.01     | 0.00     | 0.0      | 0.00        | NaN          | tbd        | T      |
 ```
+data.query('user_score == "tbd"').groupby('jp_sales')['jp_sales'].count()
 ```
 ```
+jp_sales
+0.00    2294
+0.01      16
+0.02      11
+0.03      11
+0.04       5
+0.05       7
+0.06       6
+0.08       2
+0.09       3
+0.10       1
+0.11       2
+0.12       2
+0.13       2
+0.14       1
+0.15       1
+0.16       2
+0.17       1
+0.18       2
+0.20       1
+0.25       2
+0.26       1
+0.31       1
+0.47       1
+0.86       1
+Name: jp_sales, dtype: int64
+```
+У игр с пользовательской оценкой tbd почти нет продаж в Японии
+```
+# изменим тип столбца оценок пользователей на float
+data['user_score'] = pd.to_numeric(data['user_score'], errors='coerce')
 ```
 ```
+# теперь можно строить гистограмму
+data.user_score.hist(bins=10)
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/191007382-f20a030a-79a3-4a6a-9cbd-240d16c8aa2a.png)
+
 ```
+# столбец с оценкой критиков имеет тип float. Сразу построим гистограмму
+data.critic_score.hist(bins=10)
 ```
-```
-```
+![изображение](https://user-images.githubusercontent.com/104757775/191007534-71e2a0a8-be72-4e40-8c1e-c34d8ff3aec9.png)
+
 ```
 ```
 ```
