@@ -48,7 +48,6 @@ memory usage: 1.4+ MB
 # посмотрим начало датасета и название колонок
 data.head()
 ```
-```
 |   |                     Name | Platform | Year_of_Release |        Genre | NA_sales | EU_sales | JP_sales | Other_sales | Critic_Score | User_Score | Rating |
 |--:|-------------------------:|---------:|----------------:|-------------:|---------:|---------:|---------:|------------:|-------------:|-----------:|-------:|
 | 0 | Wii Sports               | Wii      | 2006.0          | Sports       | 41.36    | 28.96    | 3.77     | 8.45        | 76.0         | 8          | E      |
@@ -56,7 +55,6 @@ data.head()
 | 2 | Mario Kart Wii           | Wii      | 2008.0          | Racing       | 15.68    | 12.76    | 3.79     | 3.29        | 82.0         | 8.3        | E      |
 | 3 | Wii Sports Resort        | Wii      | 2009.0          | Sports       | 15.61    | 10.93    | 3.28     | 2.95        | 80.0         | 8          | E      |
 | 4 | Pokemon Red/Pokemon Blue | GB       | 1996.0          | Role-Playing | 11.27    | 8.89     | 10.22    | 1.00        | NaN          | NaN        | NaN    |
-```
 ```
 # посмотрим наличие явных дубликатов
 data.duplicated().sum()
@@ -77,7 +75,6 @@ skip = pd.DataFrame(data.isna().sum()) \
     .rename(columns={0: 'before'})
 skip
 ```
-```
 |                 | before |
 |----------------:|-------:|
 |       name      | 2      |
@@ -91,7 +88,7 @@ skip
 |   critic_score  | 8578   |
 |    user_score   | 6701   |
 |      rating     | 6766   |
-```
+
 269 пропусков в колонке год релиза.  
 Убрать эти пропуски можно тремя способами:  
 - удалить
@@ -196,7 +193,6 @@ year = year.merge(game_count)
 year['period'] = year['max'] - year['min']
 year.sort_values(by='period', ascending=False)
 year.head()
-```
 ```
 |   | platform |  min |  max | mean | median | games | period |
 |--:|---------:|-----:|-----:|-----:|-------:|------:|-------:|
