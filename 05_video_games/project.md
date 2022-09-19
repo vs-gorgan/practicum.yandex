@@ -513,24 +513,85 @@ data.year_of_release.hist(ec="white", grid=False).set_title('Число выпу
 Согласно <code>[статьи](https://www.igromania.ru/news/48878/Polzovateli_sostavlyayut_spisok_vseh_kogda-libo_vypuschennyh_igr.html?ysclid=l7dnc0vzi1157470999)</code> по состоянию на 2014 г. вышло 43 811 игр. Нам для анализа предоставлено 16 715 игр.
 
 Полагаю, что для анализа интересен период с 1994 г. Ранее игр выпускалось совсем мало.
+
+**3.2  Посмотрите, как менялись продажи по платформам. Выберите платформы с наибольшими суммарными продажами и постройте распределение по годам. За какой характерный срок появляются новые и исчезают старые платформы?**
+
+Для выполнения задачи будем использовать второй датафрейм `year`
+```
+# создадим переменную, которя будет содержать число проданных копий для каждой платформы
+platform = data.groupby('platform')['total_sales'].sum().reset_index()
 ```
 ```
+# добавим у year колонку с числом проданных копий
+year = year.merge(platform)
 ```
 ```
+# посмотрим топ 5 по сумме проданных копий, в млн
+year.sort_values(by='total_sales', ascending=False).head()
 ```
+|    | platform |  min |  max | mean | median | games | period | total_sales |
+|---:|---------:|-----:|-----:|-----:|-------:|------:|-------:|------------:|
+| 16 | PS2      | 2000 | 2011 | 2004 | 2005   | 2161  | 11     | 1233.56     |
+| 28 | X360     | 2005 | 2016 | 2009 | 2010   | 1262  | 11     | 961.24      |
+| 17 | PS3      | 2006 | 2016 | 2010 | 2011   | 1331  | 10     | 931.34      |
+| 26 | Wii      | 2006 | 2016 | 2008 | 2009   | 1320  | 10     | 891.18      |
+|  4 | DS       | 1985 | 2013 | 2008 | 2008   | 2151  | 28     | 802.78      |
 ```
+# построим график продаж для PS2 по годам
+data.query('platform == "PS2"') \
+    .pivot_table(index = 'year_of_release', values = 'total_sales', aggfunc = 'sum') \
+    .plot.bar(y='total_sales', grid=True);
+plt.title('Платформа PS2')
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/191008759-7cfd37ce-e2a1-490f-9475-8c66f0a1759c.png)
+
 ```
+# построим график продаж для X360 по годам
+data.query('platform == "X360"') \
+    .pivot_table(index = 'year_of_release', values = 'total_sales', aggfunc = 'sum') \
+    .plot.bar(y='total_sales', grid=True);
+plt.title('Платформа X360')
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/191008815-16c9be39-b851-4125-b674-86d143983f87.png)
+
 ```
+# построим график продаж для PS3 по годам
+data.query('platform == "PS3"') \
+    .pivot_table(index = 'year_of_release', values = 'total_sales', aggfunc = 'sum') \
+    .plot.bar(y='total_sales', grid=True);
+plt.title('Платформа PS3')
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/191008864-219dd16e-e2c3-48ef-8fdf-e3573fed53b3.png)
+
 ```
+# построим график продаж для Wii по годам
+data.query('platform == "Wii"') \
+    .pivot_table(index = 'year_of_release', values = 'total_sales', aggfunc = 'sum') \
+    .plot.bar(y='total_sales', grid=True);
+plt.title('Платформа Wii')
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/191008909-bb7be9a1-c112-4afd-9677-3c2c687a7175.png)
+
 ```
+# построим график продаж для DS по годам
+data.query('platform == "DS"') \
+    .pivot_table(index = 'year_of_release', values = 'total_sales', aggfunc = 'sum') \
+    .plot.bar(y='total_sales', grid=True);
+plt.title('Платформа DS')
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/191008964-64d7075e-100d-4334-b3b1-3bc641ac872b.png)
+
 ```
+# построим график продаж для топ 5 платформ по годам
+data.query('platform == ["PS2", "X360", "PS3", "Wii", "DS"]') \
+    .pivot_table(index = 'year_of_release', columns ='platform', values = 'total_sales', aggfunc = 'sum') \
+    .plot(grid=True, figsize=(15, 5));
+plt.xlim([1999, 2016])
+plt.xticks([2000, 2005, 2010, 2015])
+plt.title('Динамика продаж')
 ```
-```
+![изображение](https://user-images.githubusercontent.com/104757775/191009036-d2b4f5c2-cac4-4a05-b108-b49024f8c6c6.png)
+
 ```
 ```
 ```
