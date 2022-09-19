@@ -380,6 +380,139 @@ skip
 |      rating     | 6766   | 0     |
 
 **2.4  Суммарные продажи во всех регионах**
+
+Создадим колонку `total_sales`, в которую поместим сумму продаж по всем регионам
+```
+data['total_sales'] = data[['na_sales','eu_sales','jp_sales', 'other_sales']].sum(axis = 1)
+```
+```
+# Посмотрим, что у нас осталось
+temp = data.copy() 
+list_c = ['name', 'platform', 'year_of_release', 'genre', 'critic_score', 'user_score', 'rating']
+print(temp.info())
+for col_l in list_c:
+  print('-'* 25)
+  print(col_l, temp[col_l].unique())
+  print(col_l,': кол-во NaN',temp[col_l].isna().sum(),
+        ', процент NaN', round(temp[col_l].isna().sum()/len(temp)*100, 2),'%')
+```
+```
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 16444 entries, 0 to 16714
+Data columns (total 12 columns):
+ #   Column           Non-Null Count  Dtype  
+---  ------           --------------  -----  
+ 0   name             16444 non-null  object 
+ 1   platform         16444 non-null  object 
+ 2   year_of_release  16444 non-null  int64  
+ 3   genre            16444 non-null  object 
+ 4   na_sales         16444 non-null  float64
+ 5   eu_sales         16444 non-null  float64
+ 6   jp_sales         16444 non-null  float64
+ 7   other_sales      16444 non-null  float64
+ 8   critic_score     7983 non-null   float64
+ 9   user_score       7463 non-null   float64
+ 10  rating           16444 non-null  object 
+ 11  total_sales      16444 non-null  float64
+dtypes: float64(7), int64(1), object(4)
+memory usage: 1.6+ MB
+None
+-------------------------
+name ['Wii Sports' 'Super Mario Bros.' 'Mario Kart Wii' ...
+ 'Woody Woodpecker in Crazy Castle 5' 'LMA Manager 2007'
+ 'Haitaka no Psychedelica']
+name : кол-во NaN 0 , процент NaN 0.0 %
+-------------------------
+platform ['Wii' 'NES' 'GB' 'DS' 'X360' 'PS3' 'PS2' 'SNES' 'GBA' 'PS4' '3DS' 'N64'
+ 'PS' 'XB' 'PC' '2600' 'PSP' 'XOne' 'WiiU' 'GC' 'GEN' 'DC' 'PSV' 'SAT'
+ 'SCD' 'WS' 'NG' 'TG16' '3DO' 'GG' 'PCFX']
+platform : кол-во NaN 0 , процент NaN 0.0 %
+-------------------------
+year_of_release [2006 1985 2008 2009 1996 1989 1984 2005 1999 2007 2010 2013 2004 1990
+ 1988 2002 2001 2011 1998 2015 2012 2014 1992 1997 1993 1994 1982 2016
+ 2003 1986 2000 1995 1991 1981 1987 1980 1983]
+year_of_release : кол-во NaN 0 , процент NaN 0.0 %
+-------------------------
+genre ['Sports' 'Platform' 'Racing' 'Role-Playing' 'Puzzle' 'Misc' 'Shooter'
+ 'Simulation' 'Action' 'Fighting' 'Adventure' 'Strategy']
+genre : кол-во NaN 0 , процент NaN 0.0 %
+-------------------------
+critic_score [76. nan 82. 80. 89. 58. 87. 91. 61. 97. 95. 77. 88. 83. 94. 93. 85. 86.
+ 98. 96. 90. 84. 73. 74. 78. 92. 71. 72. 68. 62. 49. 67. 81. 66. 56. 79.
+ 70. 59. 64. 75. 60. 63. 69. 50. 25. 42. 44. 55. 48. 57. 29. 47. 65. 54.
+ 20. 53. 37. 38. 33. 52. 30. 32. 43. 45. 51. 40. 46. 39. 34. 41. 36. 31.
+ 27. 35. 26. 19. 28. 23. 24. 21. 17. 13.]
+critic_score : кол-во NaN 8461 , процент NaN 51.45 %
+-------------------------
+user_score [8.  nan 8.3 8.5 6.6 8.4 8.6 7.7 6.3 7.4 8.2 9.  7.9 8.1 8.7 7.1 3.4 5.3
+ 4.8 3.2 8.9 6.4 7.8 7.5 2.6 7.2 9.2 7.  7.3 4.3 7.6 5.7 5.  9.1 6.5 8.8
+ 6.9 9.4 6.8 6.1 6.7 5.4 4.  4.9 4.5 9.3 6.2 4.2 6.  3.7 4.1 5.8 5.6 5.5
+ 4.4 4.6 5.9 3.9 3.1 2.9 5.2 3.3 4.7 5.1 3.5 2.5 1.9 3.  2.7 2.2 2.  9.5
+ 2.1 3.6 2.8 1.8 3.8 0.  1.6 9.6 2.4 1.7 1.1 0.3 1.5 0.7 1.2 2.3 0.5 1.3
+ 0.2 0.6 1.4 0.9 1.  9.7]
+user_score : кол-во NaN 8981 , процент NaN 54.62 %
+-------------------------
+rating ['E' 'unknown' 'M' 'T' 'E10+' 'K-A' 'AO' 'EC' 'RP']
+rating : кол-во NaN 0 , процент NaN 0.0 %
+```
+### 3  Исследовательский анализ данных  
+**3.1  Посмотрите, сколько игр выпускалось в разные годы. Важны ли данные за все периоды?**
+```
+# число релизов игр за каждый год
+# ранее мы выводили этот список, но теперь в нём заполнены пропуски
+data.year_of_release.value_counts()
+```
+```
+2008    1427
+2009    1426
+2010    1255
+2007    1197
+2011    1136
+2006    1006
+2005     939
+2002     829
+2003     775
+2004     762
+2012     653
+2015     606
+2014     581
+2013     544
+2016     502
+2001     482
+1998     379
+2000     350
+1999     338
+1997     289
+1996     263
+1995     219
+1994     121
+1993      60
+1981      46
+1992      43
+1991      41
+1982      36
+1986      21
+1983      17
+1989      17
+1990      16
+1987      16
+1988      15
+1985      14
+1984      14
+1980       9
+Name: year_of_release, dtype: int64
+```
+```
+# построим гистограмму
+data.year_of_release.hist(ec="white", grid=False).set_title('Число выпускаемых игр');
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191008451-8cf40424-6fc7-4787-b1ca-9c65cb1e3790.png)
+
+Исследуемый датафрейм демонстрирует ежегодный рост числа выпускаемых игр. Снижение количества игр после 2011 г. скорее всего связано с тем, что в представленном файле содержатся не все данные об играх.  
+
+Согласно <code>[статьи](https://www.igromania.ru/news/48878/Polzovateli_sostavlyayut_spisok_vseh_kogda-libo_vypuschennyh_igr.html?ysclid=l7dnc0vzi1157470999)</code> по состоянию на 2014 г. вышло 43 811 игр. Нам для анализа предоставлено 16 715 игр.
+
+Полагаю, что для анализа интересен период с 1994 г. Ранее игр выпускалось совсем мало.
 ```
 ```
 ```
@@ -405,3 +538,41 @@ skip
 ```
 ```
 ```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+```
+
