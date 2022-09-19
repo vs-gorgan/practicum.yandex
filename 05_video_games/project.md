@@ -743,29 +743,120 @@ plt.title('Диаграмма рассеяния для XOne')
 ![изображение](https://user-images.githubusercontent.com/104757775/191012637-c7161278-f967-4b80-8efd-1f081e4e2c4d.png)
 
 ```
+# корреляция XOne
+print(data_actual.query('platform == "XOne" and user_score > 1')['user_score'] \
+      .corr(data_actual['total_sales']), 'корреляция по отношению к оценкам пользователей')
+print(data_actual.query('platform == "XOne" and user_score > 1')['critic_score'] \
+      .corr(data_actual['total_sales']), 'корреляция по отношению к оценкам критиков')
 ```
 ```
+-0.0703839280647581 корреляция по отношению к оценкам пользователей
+0.42211185105557647 корреляция по отношению к оценкам критиков
 ```
 ```
+# построим для PS3
+data_actual.query('platform == "PS3"') \
+    .plot(x='user_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 5);
+plt.xlabel('Пользовательские оценки')
+plt.ylabel('Проданные копии, млн')
+plt.title('Диаграмма рассеяния для PS3')
+
+data_actual.query('platform == "PS3"') \
+    .plot(x='critic_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 5);
+plt.xlabel('Оценки критиков')
+plt.ylabel('Проданные копии, млн')
+plt.title('Диаграмма рассеяния для PS3')
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191035592-8a887acd-b894-49e8-8181-d2f452beaf00.png)
+
+```
+# корреляция PS3
+print(data_actual.query('platform == "PS3" and user_score > 1')['user_score'] \
+      .corr(data_actual['total_sales']), 'корреляция по отношению к оценкам пользователей')
+print(data_actual.query('platform == "PS3" and user_score > 1')['critic_score'] \
+      .corr(data_actual['total_sales']), 'корреляция по отношению к оценкам критиков')
 ```
 ```
+-0.1950855092193697 корреляция по отношению к оценкам пользователей
+0.44657460493190704 корреляция по отношению к оценкам критиков
 ```
 ```
+# построим для X360
+data_actual.query('platform == "X360"') \
+    .plot(x='user_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 5);
+plt.xlabel('Пользовательские оценки')
+plt.ylabel('Проданные копии, млн')
+plt.title('Диаграмма рассеяния для X360')
+
+data_actual.query('platform == "X360"') \
+    .plot(x='critic_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 5);
+plt.xlabel('Оценки критиков')
+plt.ylabel('Проданные копии, млн')
+plt.title('Диаграмма рассеяния для X360')
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191035698-32cd2ae0-51fd-4dbc-9941-3b31bca81f31.png)
+
+```
+# корреляция PS3
+print(data_actual.query('platform == "X360" and user_score > 1')['user_score'] \
+      .corr(data_actual['total_sales']), 'корреляция по отношению к оценкам пользователей')
+print(data_actual.query('platform == "X360" and user_score > 1')['critic_score'] \
+      .corr(data_actual['total_sales']), 'корреляция по отношению к оценкам критиков')
 ```
 ```
+-0.1646211394968354 корреляция по отношению к оценкам пользователей
+0.5257228356581523 корреляция по отношению к оценкам критиков
 ```
 ```
+# построим для WiiU
+data_actual.query('platform == "WiiU"') \
+    .plot(x='user_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 5);
+plt.xlabel('Пользовательские оценки')
+plt.ylabel('Проданные копии, млн')
+plt.title('Диаграмма рассеяния для WiiU')
+
+data_actual.query('platform == "WiiU"') \
+    .plot(x='critic_score', y='total_sales', kind='scatter', alpha=0.5) \
+    .set_ylim(0, 5);
+plt.xlabel('Оценки критиков')
+plt.ylabel('Проданные копии, млн')
+plt.title('Диаграмма рассеяния для WiiU')
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191035896-7ecd14d9-9976-4e41-bab0-5e17f32aafd1.png)
+
+```
+# корреляция PS3
+print(data_actual.query('platform == "WiiU" and user_score > 1')['user_score'] \
+      .corr(data_actual['total_sales']), 'корреляция по отношению к оценкам пользователей')
+print(data_actual.query('platform == "WiiU" and user_score > 1')['critic_score'] \
+      .corr(data_actual['total_sales']), 'корреляция по отношению к оценкам критиков')
 ```
 ```
+0.40792645792170773 корреляция по отношению к оценкам пользователей
+0.3756402218389979 корреляция по отношению к оценкам критиков
 ```
+Действительно, объём продаж не имеет зависимости от пользовательских оценок. В большинстве случаев корреляция отрицательная.  
+Связь числа проданных копий с рейтингом критиков - слабая.  
+Для формирования прогназа на 2017 г. не стоит принимать во внимание отзывы.
+
+***************
 ```
+# Построение диаграмм рассеяния и рассчёт корреляции через цикл
+df_sc, y = data_actual, 'total_sales'
+for platform, games_on_pl in df_sc.groupby('platform'):
+    print('='*60)
+    print(platform)
+    games_on_pl.plot(kind='scatter', x='critic_score', y=y)
+    games_on_pl.plot(kind='scatter', x='user_score', y=y)
+    plt.show()
+    display(games_on_pl[['critic_score', 'user_score', y]].corr()[y])
 ```
-```
-```
-```
-```
-```
-```
+***************
 ```
 ```
 ```
