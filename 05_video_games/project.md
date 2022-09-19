@@ -952,11 +952,91 @@ na
 | 3 | 3DS      | 22.64    | 257.81      | 8.78    |
 | 4 | PS3      | 22.05    | 931.34      | 2.37    |
 ```
+# top5 платформ в Европе
+eu = pd.DataFrame(data_actual.groupby('platform')['eu_sales'] \
+                  .sum().sort_values(ascending=False) \
+                  .head() \
+                  .reset_index())
+
+# добавим колонку total_sales по общей колонке platform
+eu = eu.merge(year[['platform', 'total_sales']])
+
+# рассчитаем % от мировых продаж
+eu['%_sales'] = (eu['eu_sales'] * 100  / eu['total_sales']).round(2)
+eu
 ```
+|   | platform | eu_sales | total_sales | %_sales |
+|--:|---------:|---------:|------------:|--------:|
+| 0 | PS4      | 130.04   | 314.14      | 41.40   |
+| 1 | XOne     | 46.25    | 159.32      | 29.03   |
+| 2 | PS3      | 25.54    | 931.34      | 2.74    |
+| 3 | PC       | 17.97    | 255.76      | 7.03    |
+| 4 | 3DS      | 16.12    | 257.81      | 6.25    |
 ```
+# top5 платформ в Японии
+jp = pd.DataFrame(data_actual.groupby('platform')['jp_sales'] \
+                  .sum().sort_values(ascending=False) \
+                  .head() \
+                  .reset_index())
+
+# добавим колонку total_sales по общей колонке platform
+jp = jp.merge(year[['platform', 'total_sales']])
+
+# рассчитаем % от мировых продаж
+jp['%_sales'] = (jp['jp_sales'] * 100  / jp['total_sales']).round(2)
+jp
 ```
+|   | platform | jp_sales | total_sales | %_sales |
+|--:|---------:|---------:|------------:|--------:|
+| 0 | 3DS      | 44.24    | 257.81      | 17.16   |
+| 1 | PS4      | 15.02    | 314.14      | 4.78    |
+| 2 | PSV      | 14.54    | 53.81       | 27.02   |
+| 3 | PS3      | 11.22    | 931.34      | 1.20    |
+| 4 | WiiU     | 7.31     | 82.19       | 8.89    |
+
+Наибольшее число продаж приходится на Северную Америку. Однако, лидирующие платформы на различных континентах отличаются. Самая популярная в Северной Америке платформа `X360` в Европе находится на 3-й строчке, в Японии не вошла в пятёрку популярных. `3DS` занимает первое место Японии. `PS3` первое место в Европе. Почти половина проданных игр для `PS4` приходится на Европу.
+
+Странно, что `PC` вошел в пятёрку лидеров только в Европе и то, на последнем месте.
+
+**4.2  Самые популярные жанры (топ-5). Поясните разницу.**
+
+У нас 12 категорий жанров. Выводить топ-5 по каждому региону не будем. Вручную составим сводную таблицу.
 ```
+# top5 жанров в Северной Америке
+na_genre = pd.DataFrame(data_actual \
+                        .groupby('genre')['na_sales'] \
+                        .sum().reset_index())
+
+# top5 жанров в Европе
+eu_genre = pd.DataFrame(data_actual \
+                        .groupby('genre')['eu_sales'] \
+                        .sum().reset_index())
+
+# top5 жанров в Японии
+jp_genre = pd.DataFrame(data_actual \
+                        .groupby('genre')['jp_sales'] \
+                        .sum().reset_index())
+
+# сводная таблица по жанрам
+pivot_ganre = na_genre.merge(eu_genre, on='genre') \
+    .merge(jp_genre, on='genre')
+
+pivot_ganre.sort_values(by='jp_sales', ascending=False)
 ```
+|    |        genre | na_sales | eu_sales | jp_sales |
+|---:|-------------:|---------:|---------:|---------:|
+|  7 | Role-Playing | 33.47    | 28.17    | 31.16    |
+|  0 | Action       | 72.53    | 74.68    | 29.58    |
+|  2 | Fighting     | 12.43    | 6.69     | 6.37     |
+|  3 | Misc         | 15.05    | 12.86    | 5.61     |
+|  8 | Shooter      | 79.02    | 65.52    | 4.87     |
+|  1 | Adventure    | 5.64     | 6.49     | 3.60     |
+| 10 | Sports       | 46.13    | 45.73    | 3.26     |
+|  4 | Platform     | 6.79     | 6.80     | 2.69     |
+|  9 | Simulation   | 2.63     | 7.30     | 2.31     |
+|  6 | Racing       | 8.74     | 14.13    | 1.76     |
+| 11 | Strategy     | 0.98     | 1.79     | 0.95     |
+|  5 | Puzzle       | 0.65     | 0.52     | 0.93     |
 ```
 ```
 ```
