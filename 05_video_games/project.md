@@ -1110,17 +1110,110 @@ H_0: Пользовательские рейтинги (user_score) платфо
 H_a: Пользовательские рейтинги (user_score) платформы "Xbox One" ≠ Пользовательским рейтингам (u_s_copy)  платформы "PC"  
 alpha = 0.05
 ```
+# Для корректного рассчёта удалим строки с пропусками в user_score
+data_actual = data_actual[data_actual['user_score'].notna()]
+# убедимся, что нет пропусков
+data_actual.user_score.isna().sum()
+```
+`0`
+```
+results = st.ttest_ind(
+    data_actual.loc[data_actual.platform == 'XOne', 'user_score'],
+    data_actual.loc[data_actual.platform == 'PC', 'user_score'], 
+    equal_var=False)
+ 
+alpha = 0.05
+ 
+print(results.pvalue)
+ 
+if results.pvalue < alpha:
+    print("Отвергаем нулевую гипотезу")
+else:
+    print("Не получилось отвергнуть нулевую гипотезу")
 ```
 ```
+0.11601398086668832
+Не получилось отвергнуть нулевую гипотезу
+```
+**5.2  Средние пользовательские рейтинги жанров Action (англ. «действие», экшен-игры) и Sports (англ. «спортивные соревнования») разные.**
+
+H_0: Пользовательские рейтинги (user_score) жанра "Action" = Пользовательским рейтингам (u_s_copy) жанра "Sports"  
+H_a: Пользовательские рейтинги (user_score) жанра "Action" ≠ Пользовательским рейтингам (u_s_copy) жанра "Sports"  
+alpha = 0.05  
+```
+results = st.ttest_ind(
+    data_actual.loc[data_actual.genre == 'Action', 'user_score'],
+    data_actual.loc[data_actual.genre == 'Sports', 'user_score'], 
+    equal_var=False)
+ 
+alpha = 0.05
+ 
+print(results.pvalue)
+ 
+if results.pvalue < alpha:
+    print("Отвергаем нулевую гипотезу")
+else:
+    print("Не получилось отвергнуть нулевую гипотезу")
 ```
 ```
+1.1825550382644557e-14
+Отвергаем нулевую гипотезу
 ```
 ```
+# создадим диаграмму размаха для иллюстрации пользовательских рейтингов по платформам
+data_actual.boxplot('user_score', by='platform', figsize=(12, 6));
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191041893-fddfdf47-392d-4a7f-8eaf-6b2b557723b4.png)
+
+```
+# создадим диаграмму размаха для иллюстрации пользовательских рейтингов по жанрам
+data_actual.boxplot('user_score', by='genre', figsize=(12, 6));
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191041965-9a7e5417-bd95-491f-acbd-ded5c9b9775e.png)
+
+Изучим распределение продаж по возрастному рейтингу игр  
+Распишем значения групп ESRB:
+
+- E - Подходит для всех возрастных категорий.
+- E10+ - Подходит для лиц старше 10 лет.
+- T - Подходит для лиц старше 13 лет.
+- M - Подходит для лиц старше 17 лет.
+- RP - Категория ещё не присвоена.
+```
+# заменим заглушку unknown на RP
+data_actual.loc[(data_actual.rating == 'unknown'), 'rating'] = 'RP'
 ```
 ```
+data_actual.boxplot('total_sales', by='rating', figsize=(12, 6)).set_ylim(0,2);
+```
+![изображение](https://user-images.githubusercontent.com/104757775/191042128-a3b856e0-41f5-4316-8878-fac58b4fd64b.png)
+
+```
+data_actual.groupby('rating')['total_sales'].sum()
 ```
 ```
+rating
+E       131.87
+E10+     66.26
+M       224.63
+RP        4.37
+T        96.98
+Name: total_sales, dtype: float64
 ```
-```
-```
-```
+### 6  Общий вывод  
+С каждым годом увеличивается число выпускаемых игр.
+
+Наибольшее число продаж приходится на X360, PS2 и PS3.
+
+Цикл жизни игровой платформы не превышает 10 лет.
+
+В 2016 г. видно падение продаж у всех платформ. Могу предположить, что это связано с ожиданием выхода Xbox Series S и PlayStation 5.
+
+Существует небольшая зависимость рейтинга пользователей/критиков к числу проданных копий.
+
+С наибольшим отрывом в рейтинге популярности лидируют два жанра: Action и Sports.
+
+Самые активные покупатели видео игр нахдятся Северную Америку. Лидирующая платформа - X360.
+
+Гипотеза: Средние пользовательские рейтинги жанров Action (англ. «действие», экшен-игры) и Sports (англ. «спортивные соревнования») разные  
+Подтверждена
