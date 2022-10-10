@@ -1152,25 +1152,222 @@ Name: acquisition_cost, dtype: float64
     - Чем могут быть вызваны проблемы окупаемости?
 
 Напишите вывод, опишите возможные причины обнаруженных проблем и промежуточные рекомендации для рекламного отдела.
+
+Установим момент и горизонт анализа данных.
 ```
+observation_date = datetime(2019, 11, 1).date()  # момент анализа
+horizon_days = 14  # горизонт анализа 
 ```
+Для последующего анализа исключим пользователей пришндших через бесплатную выдачу поисковой системы. Данные сохраним в отдельную переменную для последующего анализа.
 ```
+profiles_organic = profiles.query('channel == "organic"')
+profiles = profiles.query('channel != "organic"')
 ```
+**5.1. роанализируйте окупаемость рекламы c помощью графиков LTV и ROI, а также графики динамики LTV, CAC и ROI.**
+
+Рассчитаем и визуализируем LTV и ROI, вызвав функции `get_ltv()` и `plot_ltv_roi()`.
 ```
+# считаем LTV и ROI
+ltv_raw, ltv_grouped, ltv_history, roi_grouped, roi_history = get_ltv(
+    profiles, orders, observation_date, horizon_days
+)
+
+# строим графики
+plot_ltv_roi(ltv_grouped, ltv_history, roi_grouped, roi_history, horizon_days) 
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/194846713-cb578f69-6851-4208-8384-370d75d69f3c.png)
+
+Выводы на основании полученных графиков:
+
+- LTV стабильно, непрерывно растёт
+- ROI достигает 80%
+- CAC - c июня значительно выросла стоимость привлечения пользователей
+- Динамика LTV на 14-й день показывает всплеск в середине июня. Вероятно это результат рекламы, бюджет которой, резко вырос в предыдущем месяце.
+- Динамика ROI на 14-й день показывает постоянное падение окупаемости инвестиций.
+
+**5.2. Проверьте конверсию пользователей и динамику её изменения. То же самое сделайте с удержанием пользователей. Постройте и изучите графики конверсии и удержания.**
 ```
+conversion_raw, conversion, conversion_history = get_conversion(
+    profiles, orders, datetime(2019, 11, 1).date(), 14, dimensions=['region']
+)
+
+plt.figure(figsize=(20, 5)) # размер сетки для графиков
+
+# для кривых конверсии исключаем размеры когорт
+report = conversion.drop(columns=['cohort_size'])
+report.T.plot(
+    # строим кривые конверсии в первой ячейке таблицы графиков
+    grid=True, xticks=list(report.columns.values), ax=plt.subplot(1, 2, 1)
+)
+plt.title('Конверсия первых 14 дней с разбивкой по странам')
+
+# для графика истории изменений 
+# преобразуем таблицу динамики конверсии
+report = (
+    conversion_history[1]
+    .reset_index()
+    .pivot_table(index='dt', columns='region', values=1, aggfunc='mean')
+    .fillna(0)  # заполняем пропуски на случай, если они возникнут
+)
+report.plot(
+    # во второй ячейке строим график истории изменений
+    grid=True, ax=plt.subplot(1, 2, 2)
+)
+plt.title('Динамика конверсии второго дня с разбивкой по странам')
+
+plt.show()
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/194847139-a40a18a2-fecd-4058-abaa-38f0d4784fb5.png)
+
+Кривые показывают, что конверсия плавно растет первые 8 дней. Далее её величина почти не меняется. Лучшую конверсию в платящих пользователей показывает **United States**. 
+
+Динамика конверсии второго дня одинаковая на протяжении всего периода анализа. Но, даже в ней можно увидеть, что показатель **United States** выше.
 ```
+conversion_raw, conversion, conversion_history = get_conversion(
+    profiles, orders, datetime(2019, 11, 1).date(), 14, dimensions=['device']
+)
+
+plt.figure(figsize=(20, 5)) # размер сетки для графиков
+
+# для кривых конверсии исключаем размеры когорт
+report = conversion.drop(columns=['cohort_size'])
+report.T.plot(
+    # строим кривые конверсии в первой ячейке таблицы графиков
+    grid=True, xticks=list(report.columns.values), ax=plt.subplot(1, 2, 1)
+)
+plt.title('Конверсия первых 14 дней с разбивкой по устройствам')
+
+# для графика истории изменений 
+# преобразуем таблицу динамики конверсии
+report = (
+    conversion_history[1]
+    .reset_index()
+    .pivot_table(index='dt', columns='device', values=1, aggfunc='mean')
+    .fillna(0)  # заполняем пропуски на случай, если они возникнут
+)
+report.plot(
+    # во второй ячейке строим график истории изменений
+    grid=True, ax=plt.subplot(1, 2, 2)
+)
+plt.title('Динамика конверсии второго дня с разбивкой по устройствам')
+
+plt.show()
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/194847265-9039d66b-41a1-46d7-9b1d-93108f3999ea.png)
+
+Лучший результат конверсии в платящих пользователей показывают владельцы **Mac** и **iPhone**.
 ```
+conversion_raw, conversion, conversion_history = get_conversion(
+    profiles, orders, datetime(2019, 11, 1).date(), 14, dimensions=['channel']
+)
+
+plt.figure(figsize=(20, 5)) # размер сетки для графиков
+
+# для кривых конверсии исключаем размеры когорт
+report = conversion.drop(columns=['cohort_size'])
+report.T.plot(
+    # строим кривые конверсии в первой ячейке таблицы графиков
+    grid=True, xticks=list(report.columns.values), ax=plt.subplot(1, 2, 1)
+)
+plt.title('Конверсия первых 14 дней с разбивкой по источникам трафика')
+
+# для графика истории изменений 
+# преобразуем таблицу динамики конверсии
+report = (
+    conversion_history[1]
+    .reset_index()
+    .pivot_table(index='dt', columns='channel', values=1, aggfunc='mean')
+    .fillna(0)  # заполняем пропуски на случай, если они возникнут
+)
+report.plot(
+    # во второй ячейке строим график истории изменений
+    grid=True, ax=plt.subplot(1, 2, 2)
+)
+plt.title('Динамика конверсии второго дня с разбивкой по источникам трафика')
+
+plt.show()
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/194847331-0e5c0fa8-e6fd-4c4f-9b63-fd79feb3469c.png)
+
+Лучший результат конверсии показывает **FaceBoom**. Худший - **OppleCreativeMedia**.
 ```
+retention_raw, retention, retention_history = get_retention(
+    profiles, visits, datetime(2019, 11, 1).date(), 14, dimensions=['device']
+)
+# --- строим кривые удержания ---
+
+plt.figure(figsize=(20, 6))
+
+# берём таблицу удержания retention
+# исключаем размеры когорт и удержание первого дня
+report = retention.drop(columns=['cohort_size', 0])
+
+for i, payer in enumerate(profiles['payer'].unique()):
+    report.query('payer == @payer').droplevel('payer').T.plot(
+        grid=True,
+        xticks=list(report.columns.values),
+        ax=plt.subplot(1, 2, i + 1),
+    )
+    plt.xlabel('Лайфтайм')
+    plt.title('Кривые удержания для payer = {}'.format(payer))
+
+plt.show()
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/194847416-4960e741-a34a-4201-9a90-0e166e457e78.png)
+
+График удержания платящих пользователей показывает, что на протяжении всех лайфтаймов повторно приходящие пользователи чаще всего используют **PC**. На пятый день «жизни» в лидеры к лидеру приближаются пользователи **Android**. Согласно второму графику, удержание неплатящих примерно одинаково для всех платформ.
 ```
+retention_raw, retention, retention_history = get_retention(
+    profiles, visits, datetime(2019, 11, 1).date(), 14, dimensions=['region']
+)
+# --- строим кривые удержания ---
+
+plt.figure(figsize=(20, 6))
+
+# берём таблицу удержания retention
+# исключаем размеры когорт и удержание первого дня
+report = retention.drop(columns=['cohort_size', 0])
+
+for i, payer in enumerate(profiles['payer'].unique()):
+    report.query('payer == @payer').droplevel('payer').T.plot(
+        grid=True,
+        xticks=list(report.columns.values),
+        ax=plt.subplot(1, 2, i + 1),
+    )
+    plt.xlabel('Лайфтайм')
+    plt.title('Кривые удержания для payer = {}'.format(payer))
+
+plt.show()
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/194847573-70d43670-dcd1-4409-aa76-36cc2aec6a20.png)
+
 ```
+retention_raw, retention, retention_history = get_retention(
+    profiles, visits, datetime(2019, 11, 1).date(), 14, dimensions=['channel']
+)
+# --- строим кривые удержания ---
+
+plt.figure(figsize=(20, 6))
+
+# берём таблицу удержания retention
+# исключаем размеры когорт и удержание первого дня
+report = retention.drop(columns=['cohort_size', 0])
+
+for i, payer in enumerate(profiles['payer'].unique()):
+    report.query('payer == @payer').droplevel('payer').T.plot(
+        grid=True,
+        xticks=list(report.columns.values),
+        ax=plt.subplot(1, 2, i + 1),
+    )
+    plt.xlabel('Лайфтайм')
+    plt.title('Кривые удержания для payer = {}'.format(payer))
+
+plt.show()
 ```
-```
+![изображение](https://user-images.githubusercontent.com/104757775/194847706-8c704930-5d2b-4f8c-9495-b386eae3aa86.png)
+
+**FaceBoom** приносит больше всех пользователей, второй по объему инвестиций канал. Однако показывает худший результат удержания пользователей в каждом лайфтайме.   
+Удержание европейских пользователей примерно одинаковое. Результат удержания в Соединенных штатах на 14 день стремится к нулю. 
 ```
 ```
 ```
