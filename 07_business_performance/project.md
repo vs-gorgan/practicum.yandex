@@ -790,24 +790,179 @@ def plot_ltv_roi(ltv, ltv_history, roi, roi_history, horizon, window=7):
     plt.tight_layout()
     plt.show() 
 ```
+### 3. Исследовательский анализ данных
+
+- Составьте профили пользователей. Определите минимальную и максимальную даты привлечения пользователей.
+- Выясните, из каких стран пользователи приходят в приложение и на какую страну приходится больше всего платящих пользователей. Постройте таблицу, отражающую количество пользователей и долю платящих из каждой страны.
+- Узнайте, какими устройствами пользуются клиенты и какие устройства предпочитают платящие пользователи. Постройте таблицу, отражающую количество пользователей и долю платящих для каждого устройства.
+- Изучите рекламные источники привлечения и определите каналы, из которых пришло больше всего платящих пользователей. Постройте таблицу, отражающую количество пользователей и долю платящих для каждого канала привлечения.
+
+После каждого пункта сформулируйте выводы.
+
+**Составьте профили пользователей. Определите минимальную и максимальную даты привлечения пользователей.**
+```
+# получаем профили пользователей
+profiles = get_profiles(visits, orders, costs)
+profiles.head(5)
+```
+|   |  user_id |            first_ts |    channel | device |        region |         dt |      month | payer | acquisition_cost |
+|--:|---------:|--------------------:|-----------:|-------:|--------------:|-----------:|-----------:|------:|-----------------:|
+| 0 | 599326   | 2019-05-07 20:58:57 | FaceBoom   | Mac    | United States | 2019-05-07 | 2019-05-01 | True  | 1.088172         |
+| 1 | 4919697  | 2019-07-09 12:46:07 | FaceBoom   | iPhone | United States | 2019-07-09 | 2019-07-01 | False | 1.107237         |
+| 2 | 6085896  | 2019-10-01 09:58:33 | organic    | iPhone | France        | 2019-10-01 | 2019-10-01 | False | 0.000000         |
+| 3 | 22593348 | 2019-08-22 21:35:48 | AdNonSense | PC     | Germany       | 2019-08-22 | 2019-08-01 | False | 0.988235         |
+| 4 | 31989216 | 2019-10-02 00:07:44 | YRabbit    | iPhone | United States | 2019-10-02 | 2019-10-01 | False | 0.230769         |
+```
+# посмотрим типы данных
+profiles.info()
 ```
 ```
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 150008 entries, 0 to 150007
+Data columns (total 9 columns):
+ #   Column            Non-Null Count   Dtype         
+---  ------            --------------   -----         
+ 0   user_id           150008 non-null  int64         
+ 1   first_ts          150008 non-null  datetime64[ns]
+ 2   channel           150008 non-null  object        
+ 3   device            150008 non-null  object        
+ 4   region            150008 non-null  object        
+ 5   dt                150008 non-null  object        
+ 6   month             150008 non-null  datetime64[ns]
+ 7   payer             150008 non-null  bool          
+ 8   acquisition_cost  150008 non-null  float64       
+dtypes: bool(1), datetime64[ns](2), float64(1), int64(1), object(4)
+memory usage: 10.4+ MB
 ```
 ```
+# для колонки dt установим тип datetime
+profiles['dt'] = pd.to_datetime(profiles['dt'])
 ```
 ```
+# определим минимальную и максимальную даты привлечения пользователей
+min_analysis_date = profiles['dt'].min()
+max_analysis_date = profiles['dt'].max() 
+print('Минимальная дата привлечения', min_analysis_date)
+print('Максимальная дата привлечения', max_analysis_date)
 ```
+Минимальная дата привлечения 2019-05-01 00:00:00   
+Максимальная дата привлечения 2019-10-27 00:00:00
+
+Для анализа получили данные почти за пол года.
+
+**Выясните, из каких стран пользователи приходят в приложение и на какую страну приходится больше всего платящих пользователей. Постройте таблицу, отражающую количество пользователей и долю платящих из каждой страны.**
 ```
+# Определим страну на которую приходится больше всего платящих пользователей
+country = pd.DataFrame(
+    profiles.groupby('region')['user_id'].count()
+    .reset_index()                  
+    .merge(profiles.query('payer == True')
+          .groupby('region')['payer'].count()
+          .reset_index())
+    .rename(columns={'user_id': 'all_users', 'payer': 'buyer'})
+    .sort_values(by='buyer', ascending=False)
+)
+country['%'] = (country['buyer'] / country['all_users']*100).round(2)
+country
 ```
+|   |        region | all_users | buyer |    % |
+|--:|--------------:|----------:|------:|-----:|
+| 3 | United States | 100002    | 6902  | 6.90 |
+| 2 | UK            | 17575     | 700   | 3.98 |
+| 0 | France        | 17450     | 663   | 3.80 |
+| 1 | Germany       | 14981     | 616   | 4.11 |
+
+Больше всего пользователей приложения из **United States**. Они же составляют большую долю платящих пользователей.
+
+**Узнайте, какими устройствами пользуются клиенты и какие устройства предпочитают платящие пользователи. Постройте таблицу, отражающую количество пользователей и долю платящих для каждого устройства.**
 ```
+device = pd.DataFrame(
+    profiles.groupby('device')['user_id'].count()
+    .reset_index()                  
+    .merge(profiles.query('payer == True')
+          .groupby('device')['payer'].count()
+          .reset_index())
+    .rename(columns={'user_id': 'all_users', 'payer': 'buyer'})
+    .sort_values(by='buyer', ascending=False)
+)
+device['%'] = (device['buyer'] / device['all_users']*100).round(2)
+device
 ```
+|   |  device | all_users | buyer |    % |
+|--:|--------:|----------:|------:|-----:|
+| 3 | iPhone  | 54479     | 3382  | 6.21 |
+| 0 | Android | 35032     | 2050  | 5.85 |
+| 1 | Mac     | 30042     | 1912  | 6.36 |
+| 2 | PC      | 30455     | 1537  | 5.05 |
+
+Чаще всего клиенты используют **iPhone**. В разрезе устройств большая доля платящих пользователей приходится на **Mac**. Однако, разница доли платящих пользователей незначительная.
+
+**Изучите рекламные источники привлечения и определите каналы, из которых пришло больше всего платящих пользователей. Постройте таблицу, отражающую количество пользователей и долю платящих для каждого канала привлечения.**
 ```
+channel = pd.DataFrame(
+    profiles.groupby('channel')['user_id'].count()
+    .reset_index()                  
+    .merge(profiles.query('payer == True')
+          .groupby('channel')['payer'].count()
+          .reset_index())
+    .rename(columns={'user_id': 'all_users', 'payer': 'buyer'})
+    .sort_values(by='buyer', ascending=False)
+)
+channel['cannel_%'] = (channel['buyer'] / channel['all_users']*100).round(2)
+channel
 ```
+|    |            channel | all_users | buyer | cannel_% |
+|---:|-------------------:|----------:|------:|---------:|
+|  1 | FaceBoom           | 29144     | 3557  | 12.20    |
+|  6 | TipTop             | 19561     | 1878  | 9.60     |
+| 10 | organic            | 56439     | 1160  | 2.06     |
+|  7 | WahooNetBanner     | 8553      | 453   | 5.30     |
+|  0 | AdNonSense         | 3880      | 440   | 11.34    |
+|  5 | RocketSuperAds     | 4448      | 352   | 7.91     |
+|  2 | LeapBob            | 8553      | 262   | 3.06     |
+|  4 | OppleCreativeMedia | 8605      | 233   | 2.71     |
+|  9 | lambdaMediaAds     | 2149      | 225   | 10.47    |
+|  8 | YRabbit            | 4312      | 165   | 3.83     |
+|  3 | MediaTornado       | 4364      | 156   | 3.57     |
+
+Больше всего платящих пользователей приносят каналы **FaceBoom** и **TipTop**. **Organic** показывает много платящих пользователей, хотя их доля мала от бщего числа пользователей. Каналы **AdNonSense** и **lambdaMediaAds** приводят не много пользователей, однако доля платящих более 1/10.
 ```
+# ячейка ревьюера: создадим функцию:
+
+# задаем датасет и столбец по которому будем считать, еще задаем сам признак по умолчанию:
+def payer_share(df, column, column_to_cal = 'payer'): 
+    result = (df
+         .groupby(column)
+             
+         # обрати, пожалуйста, внимание, что мы можем сразу задать название колонок:
+         .agg(total_users = (column_to_cal,'count'),
+              payer_users = (column_to_cal,'sum'),
+              payer_sahre = (column_to_cal,'mean'))
+         .reset_index()
+         .sort_values(by=('payer_sahre'), ascending=False)
+             
+         # пример того, как можно подсчитать среднее в одно действие при создании сводной таблицы,
+         # для этого используем assign() и ламбду функцию:
+         .assign(payer_sahre_2 = lambda x : x['payer_users'] / x['total_users'])   
+         # т.е. выше мы для каждой строки считаем отношение платящих к общему кол-ву для каждой строки.            
+            )
+    return result
+
+payer_share(profiles, 'channel').style.format({'payer_sahre': '{:.1%}', 'payer_sahre_2': '{:.1%}'})
 ```
-```
-```
-```
+|    |       channel      | total_users | payer_users | payer_sahre | payer_sahre_2 |
+|:--:|:------------------:|:-----------:|:-----------:|:-----------:|:-------------:|
+|  1 | FaceBoom           | 29144       | 3557        | 12.2%       | 12.2%         |
+|  0 | AdNonSense         | 3880        | 440         | 11.3%       | 11.3%         |
+|  9 | lambdaMediaAds     | 2149        | 225         | 10.5%       | 10.5%         |
+|  6 | TipTop             | 19561       | 1878        | 9.6%        | 9.6%          |
+|  5 | RocketSuperAds     | 4448        | 352         | 7.9%        | 7.9%          |
+|  7 | WahooNetBanner     | 8553        | 453         | 5.3%        | 5.3%          |
+|  8 | YRabbit            | 4312        | 165         | 3.8%        | 3.8%          |
+|  3 | MediaTornado       | 4364        | 156         | 3.6%        | 3.6%          |
+|  2 | LeapBob            | 8553        | 262         | 3.1%        | 3.1%          |
+|  4 | OppleCreativeMedia | 8605        | 233         | 2.7%        | 2.7%          |
+| 10 | organic            | 56439       | 1160        | 2.1%        | 2.1%          |
 ```
 ```
 ```
