@@ -14,4 +14,4 @@
 
 - [06 - Базовый SQL](https://github.com/vs-gorgan/practicum.yandex/blob/main/05_video_games/project.md)
 
-- [07 - Анализ бизнес-показателей](https://github.com/vs-gorgan/practicum.yandex/blob/main/05_video_games/project.md)
+- [07 - Анализ бизнес-показателей](https://github.com/vs-gorgan/practicum.yandex/blob/main/07_business_performance/project.md)
