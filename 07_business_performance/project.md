@@ -131,6 +131,7 @@ dtype: int64
 orders.duplicated().sum()
 ```
 `0`
+
 Посмотрим переменную с расходами на рекламу
 ```
 costs.head(5)
@@ -170,6 +171,7 @@ dtype: int64
 costs.duplicated().sum()
 ```
 `0`
+
 Пропусков и явных дубликатов не обнаружено. Переименуем колонки и установим верный тип данных
 ```
 # приведём наименование колонок к принятому формату
@@ -177,11 +179,36 @@ visits.columns = ['user_id', 'region', 'device', 'channel', 'session_start', 'se
 orders.columns = ['user_id', 'event_dt', 'revenue']
 costs.rename(columns = {'Channel' : 'channel'}, inplace = True) 
 ```
-Второй способ получить змеиный регистр `visits.columns = visits.columns.str.lower().str.replace(' ', '_')`
+*Второй способ получить змеиный регистр* `visits.columns = visits.columns.str.lower().str.replace(' ', '_')`
 ```
+# изменим формат данных, содержащие дату и время
+visits['session_start'] = pd.to_datetime(visits['session_start'])
+visits['session_end'] = pd.to_datetime(visits['session_end'])
+orders['event_dt'] = pd.to_datetime(orders['event_dt'])
+costs['dt'] = pd.to_datetime(costs['dt']).dt.date
 ```
+**Проверим полученные данные на наличие ошибок и несоответствий.**
+
+Заказчик сообщил, что для анализа нам выгружены данные за период с 1 мая по 27 октября 2019 года.   
+Проверим это.
 ```
+print('min дата журнала визитов', visits['session_start'].min())
+print('max дата журнала визитов', visits['session_start'].max())
+print()
+print('min дата журнала заказов', orders['event_dt'].min())
+print('max дата журнала заказов', orders['event_dt'].max())
+print()
+print('min дата журнала расходов', costs['dt'].min())
+print('max дата журнала расходов', costs['dt'].max())
 ```
+min дата журнала визитов 2019-05-01 00:00:41   
+max дата журнала визитов 2019-10-31 23:59:23
+
+min дата журнала заказов 2019-05-01 00:28:11   
+max дата журнала заказов 2019-10-31 23:56:56
+
+min дата журнала расходов 2019-05-01   
+max дата журнала расходов 2019-10-27
 ```
 ```
 ```
