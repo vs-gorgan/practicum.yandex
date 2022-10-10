@@ -964,7 +964,28 @@ payer_share(profiles, 'channel').style.format({'payer_sahre': '{:.1%}', 'payer_s
 |  4 | OppleCreativeMedia | 8605        | 233         | 2.7%        | 2.7%          |
 | 10 | organic            | 56439       | 1160        | 2.1%        | 2.1%          |
 ```
+# Выделим долю платящих пользователей в канале от общего числа платящих
+channel['total_%'] = (channel['buyer'] / channel['buyer'].sum() * 100).round(2)
+channel.sort_values(by='total_%', ascending=False).style.format({'cannel_%': '{:.0f}%', 'total_%': '{:.0f}%'})
 ```
+|    |       channel      | all_users | buyer | cannel_% | total_% |
+|:--:|:------------------:|:---------:|:-----:|:--------:|:-------:|
+|  1 | FaceBoom           | 29144     | 3557  | 12%      | 40%     |
+|  6 | TipTop             | 19561     | 1878  | 10%      | 21%     |
+| 10 | organic            | 56439     | 1160  | 2%       | 13%     |
+|  7 | WahooNetBanner     | 8553      | 453   | 5%       | 5%      |
+|  0 | AdNonSense         | 3880      | 440   | 11%      | 5%      |
+|  5 | RocketSuperAds     | 4448      | 352   | 8%       | 4%      |
+|  2 | LeapBob            | 8553      | 262   | 3%       | 3%      |
+|  4 | OppleCreativeMedia | 8605      | 233   | 3%       | 3%      |
+|  9 | lambdaMediaAds     | 2149      | 225   | 10%      | 3%      |
+|  8 | YRabbit            | 4312      | 165   | 4%       | 2%      |
+|  3 | MediaTornado       | 4364      | 156   | 4%       | 2%      |
+
+Вывод:   
+Основная публика новых клиектов из **United States**, и они лучше конвертируются в покупателей.   
+Чаще всего пользователи используют **iPhone**.   
+Наибольшая доля платящих пользователей приходит из **FaceBoom** и **TipTop**. Минимальную конверсию показывают **YRabbit** и **MediaTornado**.
 ```
 ```
 ```
