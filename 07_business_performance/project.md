@@ -90,7 +90,7 @@ dtype: int64
 ```
 visits.duplicated().sum()
 ```
-0
+`0`
 
 Посмотрим переменную с заказами
 ```
@@ -104,29 +104,80 @@ orders.head(5)
 | 3 | 319939546352 | 2019-05-01 15:34:40 | 4.99    |
 | 4 | 366000285810 | 2019-05-01 13:59:51 | 4.99    |
 ```
+orders.info()
 ```
 ```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 40212 entries, 0 to 40211
+Data columns (total 3 columns):
+ #   Column    Non-Null Count  Dtype  
+---  ------    --------------  -----  
+ 0   User Id   40212 non-null  int64  
+ 1   Event Dt  40212 non-null  object 
+ 2   Revenue   40212 non-null  float64
+dtypes: float64(1), int64(1), object(1)
+memory usage: 942.6+ KB
 ```
 ```
+orders.isna().sum()
 ```
 ```
+User Id     0
+Event Dt    0
+Revenue     0
+dtype: int64
 ```
 ```
+orders.duplicated().sum()
+```
+`0`
+Посмотрим переменную с расходами на рекламу
+```
+costs.head(5)
+```
+|   |         dt |  Channel | costs |
+|--:|-----------:|---------:|------:|
+| 0 | 2019-05-01 | FaceBoom | 113.3 |
+| 1 | 2019-05-02 | FaceBoom | 78.1  |
+| 2 | 2019-05-03 | FaceBoom | 85.8  |
+| 3 | 2019-05-04 | FaceBoom | 136.4 |
+| 4 | 2019-05-05 | FaceBoom | 122.1 |
+```
+costs.info()
 ```
 ```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1800 entries, 0 to 1799
+Data columns (total 3 columns):
+ #   Column   Non-Null Count  Dtype  
+---  ------   --------------  -----  
+ 0   dt       1800 non-null   object 
+ 1   Channel  1800 non-null   object 
+ 2   costs    1800 non-null   float64
+dtypes: float64(1), object(2)
+memory usage: 42.3+ KB
 ```
 ```
+costs.isna().sum()
 ```
 ```
+dt         0
+Channel    0
+costs      0
+dtype: int64
 ```
 ```
+costs.duplicated().sum()
 ```
+`0`
+Пропусков и явных дубликатов не обнаружено. Переименуем колонки и установим верный тип данных
 ```
+# приведём наименование колонок к принятому формату
+visits.columns = ['user_id', 'region', 'device', 'channel', 'session_start', 'session_end']
+orders.columns = ['user_id', 'event_dt', 'revenue']
+costs.rename(columns = {'Channel' : 'channel'}, inplace = True) 
 ```
-```
-```
-```
-```
+Второй способ получить змеиный регистр `visits.columns = visits.columns.str.lower().str.replace(' ', '_')`
 ```
 ```
 ```
