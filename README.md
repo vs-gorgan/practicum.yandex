@@ -11,3 +11,7 @@
 - [04 - Анализ тарифов оператора сотовой связи](https://github.com/vs-gorgan/practicum.yandex/blob/main/04_mobile_tariff/mobile.md)
 
 - [05 - Планирование рекламных компаний видеоигр на следующий год](https://github.com/vs-gorgan/practicum.yandex/blob/main/05_video_games/project.md)
+
+- [06 - Базовый SQL](https://github.com/vs-gorgan/practicum.yandex/blob/main/05_video_games/project.md)
+
+- [07 - Анализ бизнес-показателей](https://github.com/vs-gorgan/practicum.yandex/blob/main/05_video_games/project.md)
