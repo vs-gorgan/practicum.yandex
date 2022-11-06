@@ -1163,7 +1163,7 @@ horizon_days = 14  # горизонт анализа
 profiles_organic = profiles.query('channel == "organic"')
 profiles = profiles.query('channel != "organic"')
 ```
-**5.1. роанализируйте окупаемость рекламы c помощью графиков LTV и ROI, а также графики динамики LTV, CAC и ROI.**
+**5.1. Проанализируйте окупаемость рекламы c помощью графиков LTV и ROI, а также графики динамики LTV, CAC и ROI.**
 
 Рассчитаем и визуализируем LTV и ROI, вызвав функции `get_ltv()` и `plot_ltv_roi()`.
 ```
