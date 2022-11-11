@@ -15,3 +15,5 @@
 - [06 - Базовый SQL](https://github.com/vs-gorgan/practicum.yandex/blob/main/05_video_games/project.md) ![progress](https://img.shields.io/badge/-in%20progress-green)
 
 - [07 - Анализ бизнес-показателей](https://github.com/vs-gorgan/practicum.yandex/blob/main/07_business_performance/project.md)
+
+- [08 -Решения в бизнесе_Проверка статистических гипотез] ![progress](https://img.shields.io/badge/-in%20progress-green)
