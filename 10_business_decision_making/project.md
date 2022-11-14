@@ -627,9 +627,124 @@ print(np.percentile(orders['revenue'], [90, 95, 97, 98, 99]))
 Не более 5% заказов дороже 28 000 рублей и не более 1% дороже 58 233.   
 Для определения верхней границы, повторно построим точечный график, исключив выбросы.
 ```
+# создадим переменную с заказами стоимостью до 199000
+orders_tmp = orders.query('revenue < 199000')
+
+#norm_orders = orders[orders['revenue']<=195000]['revenue']
+plt.figure(figsize=(18,4))
+x_values = pd.Series(range(0,len(orders_tmp['revenue'])))
+plt.title('Точечный график стоимостей заказов')
+plt.ylabel('Стоимость заказа')
+plt.grid()
+plt.scatter(x_values, orders_tmp['revenue'], alpha=.5) ;
 ```
+![изображение](https://user-images.githubusercontent.com/104757775/201663228-a98d381a-5f38-4e85-be61-778f220d1ade.png)
+
+Т.к. принято отсеивать от 1% до 5% наблюдений с крайними значениями, установлю верхнею границу платежа - 98 перцентиль в 45 тыс. 
+
+### 2.10  Посчитайте статистическую значимость различий в среднем количестве заказов между группами по «сырым» данным. Сделайте выводы и предположения.
 ```
+visitorsADaily = visitors[visitors['group'] == 'A'][['date', 'visitors']]
+visitorsADaily.columns = ['date', 'visitorsPerDateA']
+
+visitorsACummulative = visitorsADaily.apply(
+    lambda x: visitorsADaily[visitorsADaily['date'] <= x['date']].agg(
+        {'date': 'max', 'visitorsPerDateA': 'sum'}
+    ),
+    axis=1,
+)
+visitorsACummulative.columns = ['date', 'visitorsCummulativeA']
+
+visitorsBDaily = visitors[visitors['group'] == 'B'][['date', 'visitors']]
+visitorsBDaily.columns = ['date', 'visitorsPerDateB']
+
+visitorsBCummulative = visitorsBDaily.apply(
+    lambda x: visitorsBDaily[visitorsBDaily['date'] <= x['date']].agg(
+        {'date': 'max', 'visitorsPerDateB': 'sum'}
+    ),
+    axis=1,
+)
+visitorsBCummulative.columns = ['date', 'visitorsCummulativeB']
+
+ordersADaily = (
+    orders[orders['group'] == 'A'][['date', 'transaction_id', 'visitor_id', 'revenue']]
+    .groupby('date', as_index=False)
+    .agg({'transaction_id': pd.Series.nunique, 'revenue': 'sum'})
+)
+ordersADaily.columns = ['date', 'ordersPerDateA', 'revenuePerDateA']
+
+ordersACummulative = ordersADaily.apply(
+    lambda x: ordersADaily[ordersADaily['date'] <= x['date']].agg(
+        {'date': 'max', 'ordersPerDateA': 'sum', 'revenuePerDateA': 'sum'}
+    ),
+    axis=1,
+).sort_values(by=['date'])
+ordersACummulative.columns = [
+    'date',
+    'ordersCummulativeA',
+    'revenueCummulativeA',
+]
+
+ordersBDaily = (
+    orders[orders['group'] == 'B'][['date', 'transaction_id', 'visitor_id', 'revenue']]
+    .groupby('date', as_index=False)
+    .agg({'transaction_id': pd.Series.nunique, 'revenue': 'sum'})
+)
+ordersBDaily.columns = ['date', 'ordersPerDateB', 'revenuePerDateB']
+
+ordersBCummulative = ordersBDaily.apply(
+    lambda x: ordersBDaily[ordersBDaily['date'] <= x['date']].agg(
+        {'date': 'max', 'ordersPerDateB': 'sum', 'revenuePerDateB': 'sum'}
+    ),
+    axis=1,
+).sort_values(by=['date'])
+ordersBCummulative.columns = [
+    'date',
+    'ordersCummulativeB',
+    'revenueCummulativeB',
+]
+
+data = (
+    ordersADaily.merge(
+        ordersBDaily, left_on='date', right_on='date', how='left'
+    )
+    .merge(ordersACummulative, left_on='date', right_on='date', how='left')
+    .merge(ordersBCummulative, left_on='date', right_on='date', how='left')
+    .merge(visitorsADaily, left_on='date', right_on='date', how='left')
+    .merge(visitorsBDaily, left_on='date', right_on='date', how='left')
+    .merge(visitorsACummulative, left_on='date', right_on='date', how='left')
+    .merge(visitorsBCummulative, left_on='date', right_on='date', how='left')
+)
+
+print(data.head(5)) 
 ```
+        date  ordersPerDateA  revenuePerDateA  ordersPerDateB  \
+0 2019-08-01              24           148579              21   
+1 2019-08-02              20            93822              24   
+2 2019-08-03              24           112473              16   
+3 2019-08-04              16            70825              17   
+4 2019-08-05              25           124218              23   
+
+   revenuePerDateB  ordersCummulativeA  revenueCummulativeA  \
+0           101217                  24               148579   
+1           165531                  44               242401   
+2           114248                  68               354874   
+3           108571                  84               425699   
+4            92428                 109               549917   
+
+   ordersCummulativeB  revenueCummulativeB  visitorsPerDateA  \
+0                  21               101217               719   
+1                  45               266748               619   
+2                  61               380996               507   
+3                  78               489567               717   
+4                 101               581995               756   
+
+   visitorsPerDateB  visitorsCummulativeA  visitorsCummulativeB  
+0               713                   719                   713  
+1               581                  1338                  1294  
+2               509                  1845                  1803  
+3               770                  2562                  2573  
+4               707                  3318                  3280  
 ```
 ```
 ```
