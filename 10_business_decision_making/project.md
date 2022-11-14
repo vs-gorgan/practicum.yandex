@@ -508,27 +508,124 @@ plt.axhline(y=0, color='black', linestyle='--');
 
 ### 2.4  Постройте график кумулятивного среднего количества заказов по группам. Сделайте выводы и предположения.
 ```
+# считаем кумулятивную конверсию
+cumulativeData['conversion'] = cumulativeData['orders']/cumulativeData['visitors']
+
+# отделяем данные по группе A
+cumulativeDataA = cumulativeData[cumulativeData['group']=='A']
+
+# отделяем данные по группе B
+cumulativeDataB = cumulativeData[cumulativeData['group']=='B']
+
+# зададим размер графика
+plt.figure(figsize=(18,4))
+
+# строим графики
+plt.plot(cumulativeDataA['date'], cumulativeDataA['conversion'], label='кумулятивная конверсия группы A')
+plt.plot(cumulativeDataB['date'], cumulativeDataB['conversion'], label='кумулятивная конверсия группы B')
+
+plt.grid() # сетка
+plt.title('Кумулятивное среднее количество заказов по группам') # название
+plt.xlabel('Дата') # подпись оси х
+plt.legend(); # легенда
+```
+![изображение](https://user-images.githubusercontent.com/104757775/201659663-dad54885-bd3e-4163-9d53-3c9d5d66b062.png)
+
+В начале теста конверсия колебалась у обеих групп. Начиная и 4 августа группа **В** показала рост и зафиксировала до конца месяца значение в диапазоне от 0.033 до 0.036.   
+5 августа группа **А** показала падение и зафиксировалась в диапазоне от 0.029 до 0.031.
+
+### 2.5  Постройте график относительного изменения кумулятивного среднего количества заказов группы B к группе A. Сделайте выводы и предположения.
+```
+mergedCumulativeConversions = (
+    cumulativeDataA[['date','conversion']]
+    .merge(cumulativeDataB[['date','conversion']], left_on='date', right_on='date', how='left', suffixes=['A', 'B'])
+)
+
+# зададим размер графика
+plt.figure(figsize=(18,4))
+
+plt.plot(mergedCumulativeConversions['date'], mergedCumulativeConversions['conversionB']/
+         mergedCumulativeConversions['conversionA']-1, label="Относительный прирост конверсии группы B относительно группы A")
+plt.legend()
+
+plt.title('График относительного изменения кумулятивного среднего количества заказов группы B к группе A')
+plt.xlabel('Дата')
+plt.axhline(y=0, color='black', linestyle='--')
+plt.axhline(y=-0.1, color='grey', linestyle='--');
+```
+![изображение](https://user-images.githubusercontent.com/104757775/201659828-43a6f964-52a8-4f06-af5e-590b4b4031be.png)
+
+В начале месяца видим колебание конверсии для группы **В**. Начиная с 5 августа группа показала рост и далее сохранила лидерство до конца месяца.
+
+### 2.6  Постройте точечный график количества заказов по пользователям. Сделайте выводы и предположения.
+
+```
+# создадим переменную с числом заказов у каджого покупателя
+purchase = orders.groupby('visitor_id', as_index=False) \
+           .agg({'transaction_id': 'nunique'}) \
+           .sort_values(by='transaction_id', ascending=False)
 ```
 ```
+# зададим размер графика
+plt.figure(figsize=(18,4))
+plt.grid()
+x_values = pd.Series(range(0,len(purchase)))
+plt.title('Точечный график количества заказов по пользователям')
+plt.ylabel('Количество пользователей')
+plt.xlabel('Количество заказов')
+plt.scatter(x_values, purchase['transaction_id'], alpha=0.5, ) ;
+```
+![изображение](https://user-images.githubusercontent.com/104757775/201659981-e1946758-00af-41af-9186-f298c78f587e.png)
+
+```
+purchase.groupby('transaction_id')['visitor_id'].count()
 ```
 ```
+transaction_id
+1     937
+2      64
+3      17
+4       3
+5       6
+8       1
+9       1
+11      2
+Name: visitor_id, dtype: int64
+```
+В основном, один посетитель совершил один заказ. Незначительное число тех, кто совершил 2 или 3 заказа. 4 и более заказов - единичные случаи.
+
+### 2.7  Посчитайте 95-й и 99-й перцентили количества заказов на пользователя. Выберите границу для определения аномальных пользователей.
+```
+print(np.percentile(purchase['transaction_id'], [90, 95, 97, 98, 99])) 
 ```
 ```
+[1. 2. 2. 3. 4.]
+```
+Большинство пользователей делают один, в редких случаях два заказа. Возьмём percentile 98, три и более заказов исключим, как аномальные.
+
+### 2.8  Постройте точечный график стоимостей заказов. Сделайте выводы и предположения.
+```
+# зададим размер графика
+plt.figure(figsize=(18,4))
+x_values = pd.Series(range(0,len(orders['revenue'])))
+plt.title('Точечный график стоимостей заказов')
+plt.ylabel('Стоимость заказа')
+plt.grid()
+plt.scatter(x_values, orders['revenue'], alpha=.5) ;
+```
+![изображение](https://user-images.githubusercontent.com/104757775/201660472-3475f447-c1c4-4461-99c3-137126896565.png)
+
+Ранее метод describe показал, что стоимость большинства заказов не превышает 9 000. График демонстрирует наличие двух аномальных платежей.
+
+### 2.9  Посчитайте 95-й и 99-й перцентили стоимости заказов. Выберите границу для определения аномальных заказов.
+```
+print(np.percentile(orders['revenue'], [90, 95, 97, 98, 99])) 
 ```
 ```
+[18168.  28000.  35485.  44133.2 58233.2]
 ```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
-```
+Не более 5% заказов дороже 28 000 рублей и не более 1% дороже 58 233.   
+Для определения верхней границы, повторно построим точечный график, исключив выбросы.
 ```
 ```
 ```
