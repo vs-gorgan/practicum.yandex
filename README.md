@@ -12,7 +12,7 @@
 
 - [05 - Планирование рекламных компаний видеоигр на следующий год](https://github.com/vs-gorgan/practicum.yandex/blob/main/05_video_games/project.md)
 
-- [06 - Базовый SQL](https://github.com/vs-gorgan/practicum.yandex/blob/main/05_video_games/project.md) ![progress](https://img.shields.io/badge/-in%20progress-green)
+- [06 - Базовый SQL] ![progress](https://img.shields.io/badge/-in%20progress-green)
 
 - [07 - Анализ бизнес-показателей](https://github.com/vs-gorgan/practicum.yandex/blob/main/07_business_performance/project.md)
 
