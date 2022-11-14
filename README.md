@@ -18,4 +18,4 @@
 
 - 08 - Продвинутый SQL ![progress](https://img.shields.io/badge/-in%20progress-green)
 
-- [09 -Решения в бизнесе_Проверка статистических гипотез](https://github.com/vs-gorgan/practicum.yandex/blob/main/10_business_decision_making/project.md) ![progress](https://img.shields.io/badge/-in%20progress-green)
+- [09 -Решения в бизнесе_Проверка статистических гипотез](https://github.com/vs-gorgan/practicum.yandex/blob/main/10_business_decision_making/project.md)
