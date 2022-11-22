@@ -69,11 +69,23 @@ df
 | 244123 | MainScreenAppear        | 5746969938801999050 | 1565212483     | 246   |
 | 244124 | MainScreenAppear        | 5746969938801999050 | 1565212498     | 246   |
 | 244125 | OffersScreenAppear      | 5746969938801999050 | 1565212517     | 246   |
+
+`244126 rows × 4 columns`
 ```
-244126 rows × 4 columns
+df.info()
 ```
 ```
-```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 244126 entries, 0 to 244125
+Data columns (total 4 columns):
+ #   Column          Non-Null Count   Dtype 
+---  ------          --------------   ----- 
+ 0   EventName       244126 non-null  object
+ 1   DeviceIDHash    244126 non-null  int64 
+ 2   EventTimestamp  244126 non-null  int64 
+ 3   ExpId           244126 non-null  int64 
+dtypes: int64(3), object(1)
+memory usage: 7.5+ MB
 ```
 ```
 ```
