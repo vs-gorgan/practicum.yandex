@@ -20,4 +20,4 @@
 
 - [09 - Решения в бизнесе_Проверка статистических гипотез](https://github.com/vs-gorgan/practicum.yandex/blob/main/09_business_decision_making/project.md)
 
-- [10 A/A/B-тестирование мобильного приложения]()
+- [10 A/A/B-тестирование мобильного приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/10_AB_test/project.md)
