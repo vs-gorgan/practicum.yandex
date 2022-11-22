@@ -359,21 +359,83 @@ events - data.shape [0]
 ```
 *Не смог применить метод query к колонке `datetime`, поллучаю ошибку `not supported between instances of 'type' and 'str'`. Через Timestamp To Date Converter получил, что для даты и времени 2019-07-31 21:00:00 соответствует 1564596000 timestamp.*
 
-<hr style="border: 2px solid orange;" />
+**3.5  Много ли событий и пользователей вы потеряли, отбросив старые данные?**
+```
+print('Пользователи:')
+print('Было -', users)
+print('Осталось -', len(data['user_id'].unique()))
+print('Исключили -', users-len(data['user_id'].unique()))
+print('Доля исключённых пользователей -',"{:.1%}".format((users-len(data['user_id'].unique()))/users))
+print()
+print('События:')
+print('Было -', events)
+print('Осталось -', data['event'].count())
+print('Исключили -', events-data['event'].count())
+print('Доля исключённых пользователей -',"{:.1%}".format((events-data['event'].count())/events))
 ```
 ```
+Пользователи:
+Было - 7551
+Осталось - 7539
+Исключили - 12
+Доля исключённых пользователей - 0.2%
+
+События:
+Было - 243713
+Осталось - 241951
+Исключили - 1762
+Доля исключённых пользователей - 0.7%
+```
+**3.6  Проверьте, что у вас есть пользователи из всех трёх экспериментальных групп.**
+```
+data.group.value_counts()
 ```
 ```
+248    84949
+246    79632
+247    77370
+Name: group, dtype: int64
+```
+Пользователи на месте.   
+Напомним обозначение номеров эксперимента: 246 и 247 — контрольные группы, а 248 — экспериментальная.
+
+### 4.  Изучите воронку событий
+
+**4.1  Посмотрите, какие события есть в логах, как часто они встречаются. Отсортируйте события по частоте.**
+```
+data.event.value_counts()
 ```
 ```
+MainScreenAppear           118005
+OffersScreenAppear          46577
+CartScreenAppear            42383
+PaymentScreenSuccessful     33976
+Tutorial                     1010
+Name: event, dtype: int64
 ```
+Получили 5 типов событий.
+
+**4.2  Посчитайте, сколько пользователей совершали каждое из этих событий. Отсортируйте события по числу пользователей. Посчитайте долю пользователей, которые хоть раз совершали событие.**
 ```
+# Посчитаем, сколько пользователей совершали каждое событий
+df_event = data.groupby('event') \
+    .agg({'user_id': 'nunique'}) \
+    .rename(columns={'user_id': 'users'}) \
+    .reset_index() \
+    .sort_values(by='users', ascending=False)
+
+# Посчитаем долю пользователей
+df_event['user_%'] = (df_event['users'] * 100 / len(data['user_id'].unique())).round(1)
+
+df_event.style.format({'user_%': '{:.1f}%'})
 ```
-```
-```
-```
-```
-```
+|       |        **event**        | **users** | **user_%** |
+|:-----:|:-----------------------:|:---------:|:----------:|
+| **1** | MainScreenAppear        | 7424      | 98.5%      |
+| **2** | OffersScreenAppear      | 4600      | 61.0%      |
+| **0** | CartScreenAppear        | 3736      | 49.6%      |
+| **3** | PaymentScreenSuccessful | 3540      | 47.0%      |
+| **4** | Tutorial                | 843       | 11.2%      |
 ```
 ```
 ```
