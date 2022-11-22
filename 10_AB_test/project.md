@@ -358,6 +358,8 @@ events - data.shape [0]
 1762
 ```
 *Не смог применить метод query к колонке `datetime`, поллучаю ошибку `not supported between instances of 'type' and 'str'`. Через Timestamp To Date Converter получил, что для даты и времени 2019-07-31 21:00:00 соответствует 1564596000 timestamp.*
+
+<hr style="border: 2px solid orange;" />
 ```
 ```
 ```
