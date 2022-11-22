@@ -4,7 +4,7 @@
 
 - [01 - Проект: музыка больших городов](https://github.com/vs-gorgan/practicum.yandex/blob/main/01-data-analyst.music/music.md)
 
-- [02.1 - Исследование надежности заемщиков. Графики]()
+- [02.1 - Исследование надежности заемщиков. Графики](https://github.com/vs-gorgan/practicum.yandex/blob/main/02.1-reliability_of_borrowers/project.md)
 
 - [02 - Исследование надежности заемщиков](https://github.com/vs-gorgan/practicum.yandex/blob/main/02-reliability_of_borrowers/credit.md)
 
