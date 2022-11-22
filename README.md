@@ -10,7 +10,7 @@
 
 - [03 - Исследование объявлений о продаже квартир](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/real_estate.md)
 
-- [03.1 - Исследование объявлений о продаже квартир. Графики]()
+- [03.1 - Исследование объявлений о продаже квартир. Графики](https://github.com/vs-gorgan/practicum.yandex/blob/main/03.1_spb_real_estate/project.md)
 
 - [04 - Анализ тарифов оператора сотовой связи](https://github.com/vs-gorgan/practicum.yandex/blob/main/04_mobile_tariff/mobile.md)
 
