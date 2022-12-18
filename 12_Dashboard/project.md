@@ -53,3 +53,24 @@
 -    Какие графики должны отображаться и в каком порядке, какие элементы управления должны быть на дашборде (макет дашборда):
 
 ![изображение](https://user-images.githubusercontent.com/104757775/208314899-c82f8469-645a-4f71-9191-9d00d78958ed.png)
+
+Подключимся к базе
+```
+# импортируем библиотеки
+import pandas as pd
+from sqlalchemy import create_engine
+
+db_config = {'user': 'praktikum_student', # имя пользователя
+            'pwd': 'Sdf4$2;d-d30pp', # пароль
+            'host': 'rc1b-wcoijxj3yxfsf3fs.mdb.yandexcloud.net',
+            'port': 6432, # порт подключения
+            'db': 'data-analyst-zen-project-db'} # название базы данных
+
+connection_string = 'postgresql://{}:{}@{}:{}/{}'.format(db_config['user'],
+                                                db_config['pwd'],
+                                                db_config['host'],
+                                                db_config['port'],
+                                                db_config['db'])
+
+engine = create_engine(connection_string)
+```
