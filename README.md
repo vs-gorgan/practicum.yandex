@@ -27,3 +27,5 @@
 - [10 A/A/B-тестирование мобильного приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/10_AB_test/project.md)
 
 - [11 Визуализация данных общественного питания Москвы](https://colab.research.google.com/drive/1BDF1aPbWBIah1awIINEJVW_-DtTg1nCl)
+
+- [12 Автоматизация. Дашборд](https://)
