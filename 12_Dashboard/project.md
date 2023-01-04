@@ -55,7 +55,7 @@
 ![изображение](https://user-images.githubusercontent.com/104757775/208314899-c82f8469-645a-4f71-9191-9d00d78958ed.png)
 
 Создим коннекцию к базе
-```
+```python
 # импортируем библиотеки
 import pandas as pd
 from sqlalchemy import create_engine
@@ -76,7 +76,7 @@ engine = create_engine(connection_string)
 ```
 Коннекция к базе хранится в переменной engine
 
-```
+```python
 # Формируем sql-запрос.
 query = ''' SELECT *
             FROM dash_visits
@@ -84,7 +84,7 @@ query = ''' SELECT *
 ```
 Выполняем запрос и сохраняем результат выполнения в DataFrame.    
 Sqlalchemy автоматически установит названия колонок
-```
+```python
 dash_visits = pd.io.sql.read_sql(query, con = engine)
 ```
 <code>[Ссылка](https://colab.research.google.com/drive/1CDUiUL1NmqVJi63BBeTQ-na3NCZXgV8c?usp=sharing#scrollTo=W3QpY_b1hwye)</code> на тетрадку автоматизации (Notebook ipnb).
