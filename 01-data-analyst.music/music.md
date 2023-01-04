@@ -42,7 +42,7 @@ df = pd.read_csv('/datasets/yandex_music_project.csv') # чтение файла
 
 
 Выведите на экран первые десять строк таблицы:
-```
+```python
 df.head(10) # получение первых 10 строк таблицы df
 ```
 | userID |    Track |                      artist |            genre |   City |             time |      Day |           |
