@@ -34,4 +34,4 @@
 
 - [14 AB-тест новой платёжной воронки](https://github.com/vs-gorgan/practicum.yandex/blob/main/14_AB-test_final/AB-test_final.ipynb)
 
-- [15 SQL сервис для чтения книг по подписке]()
+- [15 SQL сервис для чтения книг по подписке](https://github.com/vs-gorgan/practicum.yandex/blob/main/15_SQL/15_SQL.ipynb)
