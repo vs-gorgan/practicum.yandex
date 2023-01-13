@@ -33,3 +33,5 @@
 - [13 Мобильные приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/13_mobile_app/13_mobile_app.ipynb)
 
 - [14 AB-тест новой платёжной воронки](https://github.com/vs-gorgan/practicum.yandex/blob/main/14_AB-test_final/AB-test_final.ipynb)
+
+- [15 SQL сервис для чтения книг по подписке]()
