@@ -24,14 +24,14 @@
 
 - [09 - Решения в бизнесе_Проверка статистических гипотез](https://github.com/vs-gorgan/practicum.yandex/blob/main/09_business_decision_making/project.md)
 
-- [10 A/A/B-тестирование мобильного приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/10_AB_test/project.md)
+- [10 - A/A/B-тестирование мобильного приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/10_AB_test/project.md)
 
-- [11 Визуализация данных общественного питания Москвы](https://colab.research.google.com/drive/1BDF1aPbWBIah1awIINEJVW_-DtTg1nCl)
+- [11 - Визуализация данных общественного питания Москвы](https://colab.research.google.com/drive/1BDF1aPbWBIah1awIINEJVW_-DtTg1nCl)
 
-- [12 Автоматизация. Дашборд](https://github.com/vs-gorgan/practicum.yandex/blob/main/12_Dashboard/project.md)
+- [12 - Автоматизация. Дашборд](https://github.com/vs-gorgan/practicum.yandex/blob/main/12_Dashboard/project.md)
 
-- [13 Мобильные приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/13_mobile_app/13_mobile_app.ipynb)
+- [13 - Мобильные приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/13_mobile_app/13_mobile_app.ipynb)
 
-- [14 AB-тест новой платёжной воронки](https://github.com/vs-gorgan/practicum.yandex/blob/main/14_AB-test_final/AB-test_final.ipynb)
+- [14 - AB-тест новой платёжной воронки](https://github.com/vs-gorgan/practicum.yandex/blob/main/14_AB-test_final/AB-test_final.ipynb)
 
-- [15 SQL сервис для чтения книг по подписке](https://github.com/vs-gorgan/practicum.yandex/blob/main/15_SQL/15_SQL.ipynb)
+- [15 - SQL сервис для чтения книг по подписке](https://github.com/vs-gorgan/practicum.yandex/blob/main/15_SQL/15_SQL.ipynb)
