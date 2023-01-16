@@ -22,7 +22,7 @@
 
 - 08 - Продвинутый SQL ![progress](https://img.shields.io/badge/-in%20progress-green)
 
-- [09 - Решения в бизнесе_Проверка статистических гипотез](https://github.com/vs-gorgan/practicum.yandex/blob/main/09_business_decision_making/project.md)
+- [09 - Решения в бизнесе_Проверка статистических гипотез](https://github.com/vs-gorgan/practicum.yandex/blob/main/09_business_decision_making/09_AB_test.ipynb)
 
 - [10 - A/A/B-тестирование мобильного приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/10_AB_test/project.md)
 
