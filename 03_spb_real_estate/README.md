@@ -34,4 +34,5 @@
 ## Используемые библиотеки
 *pandas*, *matplotlib.pyplot*, *seaborn*
 
-[Проект](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/real_estate.md)
+## Проект
+[Link](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/real_estate.md)
