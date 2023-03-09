@@ -35,4 +35,4 @@
 *pandas*, *matplotlib.pyplot*, *seaborn*
 
 ## Проект
-[Link](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/real_estate.md)
+[Ссылка](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/real_estate.md)
