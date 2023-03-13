@@ -30,3 +30,7 @@
 
 ## Используемые библиотеки
 *pandas*, *numpy*, *seaborn*, *matplotlib.pyplot*, *stats*
+
+## Проект
+
+[Ссылка](https://github.com/vs-gorgan/practicum.yandex/blob/main/04_mobile_tariff/04_mobile_tariff.ipynb)
