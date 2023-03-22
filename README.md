@@ -15,7 +15,8 @@
 | [05 - Планирование рекламных компаний видеоигр на следующий год](05_video_games) | Определить рекламную стратегию на следующий год на основе данных о продажах компьютерных игр по всему миру | *pandas*, *numpy*, *scipy*, *matplotlib*, *seaborn* |
 | 06 - Базовый SQL ![progress](https://img.shields.io/badge/-in%20progress-green) | Анализ инвестиций венчурных фондов в стартапы | *sql* |
 | [07 - Анализ бизнес-показателей](07_business_performance) | Маркетинговый анализ мобильного приложения. Определение причин снижения финансовых показателей | *pandas*, *numpy*, *datetime*, *matplotlib* |
-
+| 08 - Продвинутый SQL ![progress](https://img.shields.io/badge/-in%20progress-green) | Анализ пользовательской активности сервиса StackOverflow | *sql* |
+| [09 - Решения в бизнесе_Проверка статистических гипотез](09_business_decision_making) | Проверка гипотез, выдвинутых для увеличения выручки интернет-магазина | *pandas*, *numpy*, *scipy*, *matplotlib* |
 
 - [01 - Проект: музыка больших городов](https://github.com/vs-gorgan/practicum.yandex/blob/main/01-data-analyst.music/music.md)
 
