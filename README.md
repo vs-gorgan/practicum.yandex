@@ -17,6 +17,7 @@
 | [07 - Анализ бизнес-показателей](07_business_performance) | Маркетинговый анализ мобильного приложения. Определение причин снижения финансовых показателей | *pandas*, *numpy*, *datetime*, *matplotlib* |
 | 08 - Продвинутый SQL ![progress](https://img.shields.io/badge/-in%20progress-green) | Анализ пользовательской активности сервиса StackOverflow | *sql* |
 | [09 - Принятие решений в бизнесе. Проверка статистических гипотез](09_business_decision_making) | Проверка гипотез, выдвинутых для увеличения выручки интернет-магазина | *pandas*, *numpy*, *scipy*, *matplotlib* |
+| [10 - A/A/B-тестирование мобильного приложения](10_AB_test) | На основании A/A/B-теста принять решение о внесение изменений в дизайн мобильного приложения | *pandas*, *matplotlib*, *plotly*, *numpy*, *datetime*, *scipy*, *seaborn*, *math*|
 
 - [01 - Проект: музыка больших городов](https://github.com/vs-gorgan/practicum.yandex/blob/main/01-data-analyst.music/music.md)
 
