@@ -38,3 +38,11 @@
 ## Используемые библиотеки
 
 *pandas*, *matplotlib*, *plotly*, *numpy*, *datetime*, *scipy*, *seaborn*, *math*, *re*, *json*, *requests*, *folium*
+
+## Проект
+
+[Ссылка](https://github.com/vs-gorgan/practicum.yandex/blob/main/11_Moscow_places/11_Moscow_places(2).ipynb)
+
+## Презентация
+
+[Ссылка](https://github.com/vs-gorgan/practicum.yandex/blob/main/11_Moscow_places/moscow_places.pdf)
