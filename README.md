@@ -19,6 +19,7 @@
 | [09 - Принятие решений в бизнесе. Проверка статистических гипотез](09_business_decision_making) | Проверка гипотез, выдвинутых для увеличения выручки интернет-магазина | *pandas*, *numpy*, *scipy*, *matplotlib* |
 | [10 - A/A/B-тестирование мобильного приложения](10_AB_test) | На основании A/A/B-теста принять решение о внесение изменений в дизайн мобильного приложения | *pandas*, *matplotlib*, *plotly*, *numpy*, *datetime*, *scipy*, *seaborn*, *math*|
 | [11 - Визуализация данных общественного питания Москвы](11_Moscow_places) | Анализ заведение общественного питания в Москве. Дать рекомендацию для инвесторов фонда: где и какой тип заведения лучше открыть. | *pandas*, *matplotlib*, *plotly*, *numpy*, *datetime*, *scipy*, *seaborn*, *math*, *re*, *json*, *requests*, *folium* |
+| [12 - Автоматизация. Дашборд](12_Dashboard) | Подключение к базе Яндекс.Дзен, выгрузка данных, построение дашборда. | *pandas*, *sqlalchemy*, *IPython.display* |
 
 - [01 - Проект: музыка больших городов](https://github.com/vs-gorgan/practicum.yandex/blob/main/01-data-analyst.music/music.md)
 
