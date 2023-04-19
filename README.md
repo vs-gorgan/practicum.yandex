@@ -22,39 +22,4 @@
 | [12 - Автоматизация. Дашборд](12_Dashboard) | Подключение к базе Яндекс.Дзен, выгрузка данных, построение дашборда. | *pandas*, *sqlalchemy*, *IPython.display* |
 | [13 - Мобильные приложения](13_mobile_app) | Рассчитать retention rate пользователей в мобильном приложении, определить конверсия в целевое действие, построить дашборд | *pandas*, *matplotlib*, *numpy*, *seaborn* |
 | [14 - AB-тест новой платёжной воронки](14_AB-test_final) | Исследовать данные. Провести оценку результатов A/B-теста | *pandas*, *datetime*, *seaborn*, *matplotlib*, *numpy*, *plotly*, *math*, *scipy* |
-| [15 - SQL сервис для чтения книг по подписке](15_SQL) | Исследовать данные. Провести оценку результатов A/B-теста | *pandas*, *sqlalchemy* |
-
-
-- [01 - Проект: музыка больших городов](https://github.com/vs-gorgan/practicum.yandex/blob/main/01-data-analyst.music/music.md)
-
-- [02 - Исследование надежности заемщиков](https://github.com/vs-gorgan/practicum.yandex/blob/main/02-reliability_of_borrowers/credit.md)
-
-- [02.1 - Исследование надежности заемщиков. Графики](https://github.com/vs-gorgan/practicum.yandex/blob/main/02.1-reliability_of_borrowers/project.md)
-
-- [03 - Исследование объявлений о продаже квартир](https://github.com/vs-gorgan/practicum.yandex/blob/main/03_spb_real_estate/real_estate.md)
-
-- [03.1 - Исследование объявлений о продаже квартир. Графики](https://github.com/vs-gorgan/practicum.yandex/blob/main/03.1_spb_real_estate/project.md)
-
-- [04 - Анализ тарифов оператора сотовой связи](https://github.com/vs-gorgan/practicum.yandex/blob/main/04_mobile_tariff/mobile.md)
-
-- [05 - Планирование рекламных компаний видеоигр на следующий год](https://github.com/vs-gorgan/practicum.yandex/blob/main/05_video_games/project.md)
-
-- 06 - Базовый SQL ![progress](https://img.shields.io/badge/-in%20progress-green)
-
-- [07 - Анализ бизнес-показателей](https://github.com/vs-gorgan/practicum.yandex/blob/main/07_business_performance/project.md)
-
-- 08 - Продвинутый SQL ![progress](https://img.shields.io/badge/-in%20progress-green)
-
-- [09 - Решения в бизнесе_Проверка статистических гипотез](https://github.com/vs-gorgan/practicum.yandex/blob/main/09_business_decision_making/09_AB_test.ipynb)
-
-- [10 - A/A/B-тестирование мобильного приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/10_AB_test/project.md)
-
-- [11 - Визуализация данных общественного питания Москвы](https://github.com/vs-gorgan/practicum.yandex/blob/main/11_Moscow_places/11_Moscow_places(2).ipynb)
-
-- [12 - Автоматизация. Дашборд](https://github.com/vs-gorgan/practicum.yandex/blob/main/12_Dashboard/project.md)
-
-- [13 - Мобильные приложения](https://github.com/vs-gorgan/practicum.yandex/blob/main/13_mobile_app/13_mobile_app.ipynb)
-
-- [14 - AB-тест новой платёжной воронки](https://github.com/vs-gorgan/practicum.yandex/blob/main/14_AB-test_final/AB-test_final.ipynb)
-
-- [15 - SQL сервис для чтения книг по подписке](https://github.com/vs-gorgan/practicum.yandex/blob/main/15_SQL/15_SQL.ipynb)
+| [15 - SQL сервис для чтения книг по подписке](15_SQL) | Познакомиться с базой данных действующего бизнеса. Опредилить направление развития для нового продукта. | *pandas*, *sqlalchemy* |
