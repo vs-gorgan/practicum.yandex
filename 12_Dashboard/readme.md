@@ -87,7 +87,9 @@ Sqlalchemy автоматически установит названия кол
 ```python
 dash_visits = pd.io.sql.read_sql(query, con = engine)
 ```
-<code>[Ссылка](https://colab.research.google.com/drive/1CDUiUL1NmqVJi63BBeTQ-na3NCZXgV8c?usp=sharing#scrollTo=W3QpY_b1hwye)</code> на тетрадку автоматизации (Notebook ipnb).
+<code>[Ссылка](https://github.com/vs-gorgan/practicum.yandex/blob/main/12_Dashboard/12_dzen_dashboard.ipynb)</code> jupiter notebook
+
+<code>[Ссылка](https://colab.research.google.com/drive/1CDUiUL1NmqVJi63BBeTQ-na3NCZXgV8c?usp=sharing#scrollTo=W3QpY_b1hwye)</code> на тетрадку автоматизации (Colab Notebook ipnb).
 
 <code>[Ссылка](https://public.tableau.com/app/profile/vitaliy2252/viz/053_vs_gogran/Dzendashvisits?publish=yes)</code> на интерактивные диаграммы (Dashboard tableau public)
 
