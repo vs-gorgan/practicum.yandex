@@ -44,12 +44,12 @@
 
 ## Задача
 
-Провести оценку результатов A/B-теста
+Познакомиться с базой данных действующего бизнеса. Опредилить направление развития для нового продукта.
 
 ## Используемые библиотеки
 
-*pandas*, *datetime*, *seaborn*, *matplotlib*, *numpy*, *plotly*, *math*, *scipy*
+*pandas*, *sqlalchemy*
 
 ## Проект
 
-[Ссылка](https://github.com/vs-gorgan/practicum.yandex/blob/main/14_AB-test_final/AB-test_final.ipynb)
+[Ссылка](https://github.com/vs-gorgan/practicum.yandex/blob/main/15_SQL/15_SQL.ipynb)
