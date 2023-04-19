@@ -22,7 +22,7 @@
 | [12 - Автоматизация. Дашборд](12_Dashboard) | Подключение к базе Яндекс.Дзен, выгрузка данных, построение дашборда. | *pandas*, *sqlalchemy*, *IPython.display* |
 | [13 - Мобильные приложения](13_mobile_app) | Рассчитать retention rate пользователей в мобильном приложении, определить конверсия в целевое действие, построить дашборд | *pandas*, *matplotlib*, *numpy*, *seaborn* |
 | [14 - AB-тест новой платёжной воронки](14_AB-test_final) | Исследовать данные. Провести оценку результатов A/B-теста | *pandas*, *datetime*, *seaborn*, *matplotlib*, *numpy*, *plotly*, *math*, *scipy* |
-
+| [15 - SQL сервис для чтения книг по подписке](15_SQL) | Исследовать данные. Провести оценку результатов A/B-теста | *pandas*, *sqlalchemy* |
 
 
 - [01 - Проект: музыка больших городов](https://github.com/vs-gorgan/practicum.yandex/blob/main/01-data-analyst.music/music.md)
